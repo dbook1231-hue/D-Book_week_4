@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:padding="16dp"
+    android:background="@color/signbackgroundColor">
+
+    <ImageView
+        android:src="@drawable/ic_add_to_photos_black_24dp"
+        android:id="@+id/signupActivity_imageview_profile"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_margin="50dp"/>
+
+    <!-- 이메일 입력 필드 -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeWidth="2dp"
+        app:boxStrokeColor="@color/inputStrokeColor"
+        android:hint="이메일">
+
+        <EditText
+            android:id="@+id/signupActivity_edittext_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:textSize="16sp"
+            android:inputType="textEmailAddress"
+            android:background="@drawable/bg_input"
+            android:textColor="@android:color/black"
+            android:textColorHint="@color/hintColor"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- 이름 입력 필드 -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeWidth="2dp"
+        app:boxStrokeColor="@color/inputStrokeColor"
+        android:hint="이름">
+
+        <EditText
+            android:id="@+id/signupActivity_edittext_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:textSize="16sp"
+            android:inputType="textEmailAddress"
+            android:background="@drawable/bg_input"
+            android:textColor="@android:color/black"
+            android:textColorHint="@color/hintColor"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- 패스워드 입력 필드 -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeWidth="2dp"
+        app:boxStrokeColor="@color/inputStrokeColor"
+        android:hint="패스워드">
+
+        <EditText
+            android:id="@+id/signupActivity_edittext_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:textSize="16sp"
+            android:inputType="textPassword"
+            android:background="@drawable/bg_input"
+            android:textColor="@android:color/black"
+            android:textColorHint="@color/hintColor"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- 회원가입 버튼 -->
+    <Button
+        android:id="@+id/signupActivity_button_signup"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="회원가입"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/signcolorPrimary"
+        android:layout_marginBottom="16dp"
+        android:elevation="4dp"/>
+
+    <!-- 로그인 링크 버튼 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="이미 계정이 있으신가요?"
+        android:textColor="@color/signcolorPrimary"
+        android:textSize="14sp"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"/>
+
+    <Button
+        android:id="@+id/signupActivity_button_login"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="로그인"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/signcolorAccent"
+        android:layout_marginBottom="16dp"
+        android:elevation="4dp"/>
+</LinearLayout>

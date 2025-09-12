@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">D-Book</string>
+    <string name="rc_color">splash_background</string>
+    <string name="action_people">People</string>
+    <string name="action_chat">Chat</string>
+    <string name="action_account">Account</string>
+    <string name="title_activity_mainpage">MainpageActivity</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <string name="title_activity_setup">SetupActivity</string>
+</resources>
