@@ -65,6 +65,15 @@ public class SearchActivity extends AppCompatActivity {
         recyclerSearchResults.setLayoutManager(new LinearLayoutManager(this));
         recyclerSearchResults.setAdapter(adapter);
 
+        String initialQuery = getIntent().getStringExtra("query");
+        if (initialQuery != null && !initialQuery.trim().isEmpty()) {
+            editSearch.setText(initialQuery);
+            editSearch.setSelection(initialQuery.length());
+            filterBooks(initialQuery);
+        } else {
+            filterBooks("");
+        }
+
         // 검색 입력 감지
         editSearch.addTextChangedListener(new TextWatcher() {
             @Override

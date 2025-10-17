@@ -1,5 +1,25 @@
 <resources>
     <string name="app_name">D-Book</string>
+    <string name="title_recommended">추천 도서</string>
+    <string name="title_my_library">내 서재</string>
+    <string name="label_favorites">즐겨찾기</string>
+    <string name="label_recent">최근 본 책</string>
+    <string name="nav_search">검색</string>
+    <string name="nav_notifications">알림</string>
+    <string name="nav_settings">설정</string>
+    <string name="nav_books">책</string>
+    <string name="hint_search">도서명/작가 검색</string>
+    <string name="title_book_detail">도서 상세</string>
+    <string name="section_storyline">줄거리</string>
+    <string name="section_keywords">키워드 태그</string>
+    <string name="section_challenge">챌린지 참여</string>
+    <string name="section_reviews">커뮤니티 리뷰</string>
+    <string name="book_detail_summary_placeholder">초여름, 작은 해안 도시에서 펼쳐지는 2030세대의 성장과 도전 이야기. 팀 프로젝트로 묶인 청년들이 독서와 커뮤니티 활동을 통해 서로의 고민을 공유하고, 협업형 챌린지를 통해 스스로를 변화시키는 과정을 담았습니다.</string>
+    <string name="book_detail_challenge_title_placeholder">9월 협업형 독서 챌린지에 참여하세요!</string>
+    <string name="book_detail_challenge_desc_placeholder">이달의 목표: 4주 동안 팀원과 함께 핵심 장을 읽고 토론 노트를 업로드하세요. 주차별 미션을 완료하면 개인 맞춤 도서 추천과 포인트 보상을 받을 수 있습니다.</string>
+    <string name="label_join_challenge">챌린지 참여하기</string>
+    <string name="toast_challenge_joined">챌린지 참여가 등록되었어요!</string>
+    <string name="label_reviews_empty">아직 등록된 리뷰가 없습니다. 첫 리뷰를 남겨보세요!</string>
     <string name="rc_color">splash_background</string>
     <string name="action_people">People</string>
     <string name="action_chat">Chat</string>
@@ -7,4 +27,16 @@
     <string name="title_activity_mainpage">MainpageActivity</string>
     <string name="title_activity_main2">MainActivity2</string>
     <string name="title_activity_setup">SetupActivity</string>
+    <string-array name="book_detail_keywords_sample">
+        <item>협업</item>
+        <item>챌린지</item>
+        <item>2030세대</item>
+        <item>자기계발</item>
+        <item>감성</item>
+    </string-array>
+    <string-array name="book_detail_reviews_sample">
+        <item>김보라|팀 기반으로 책을 읽으니까 확실히 동기부여가 되네요. 이번 챌린지 통해서 독서 습관이 확실히 잡혔어요.|2025.09.10 · 좋아요 12</item>
+        <item>이현수|커뮤니티에서 서로 경험을 나누는 부분이 특히 좋았어요. 요약 미션 덕분에 책 내용을 깊게 소화했습니다.|2025.09.08 · 좋아요 8</item>
+        <item>박지유|데일리 리뷰 알림 덕분에 꾸준히 읽게 되었어요. 다음 시즌 챌린지도 기대됩니다!|2025.09.04 · 좋아요 5</item>
+    </string-array>
 </resources>

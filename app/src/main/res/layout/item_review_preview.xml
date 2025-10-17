@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:background="#0D000000">
+
+    <TextView
+        android:id="@+id/textReviewerName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/textPrimary"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:text="Reviewer" />
+
+    <TextView
+        android:id="@+id/textReviewBody"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:textColor="@color/textSecondary"
+        android:textSize="13sp"
+        android:lineSpacingExtra="3dp"
+        android:text="Review content" />
+
+    <TextView
+        android:id="@+id/textReviewMeta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:textColor="@color/textSecondary"
+        android:textSize="12sp"
+        android:text="2025.09.25  •  좋아요 12개" />
+
+</LinearLayout>

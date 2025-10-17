@@ -1,36 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="chatBackground">#E6F9E6</color> <!-- 연한 연두색 -->
-    <color name="chatInputBackground">#D2F5D2</color> <!-- 더 밝은 입력창 배경 -->
-    <color name="chatSendButton">#44BBA4</color> <!-- 포인트 색 (기존 colorPrimary와 일치) -->
-    <color name="loginBackground">#F5F5F5</color> <!-- 밝은 회색 배경 -->
-    <color name="inputStrokeColor">#BDBDBD</color> <!-- 입력 필드 테두리 색상 -->
-    <color name="hintColor">#9E9E9E</color> <!-- 힌트 텍스트 색상 -->
-    <color name="loginButtonColor">#00498C</color> <!-- 로그인 버튼 색상 -->
-    <color name="loginSignupTextColor">#00498C</color> <!-- 회원가입 버튼 텍스트 색상 -->
-    <color name="backgroundColor">#F0F0F0</color> <!-- 밝은 회색 배경 -->
-    <color name="white">#FFFFFF</color> <!-- 흰색 -->
-    <color name="signbackgroundColor">#F8F8F8</color> <!-- 부드러운 회색 배경 -->
-    <color name="signcolorPrimary">#00498C</color> <!-- 주 색상 (초록색) -->
-    <color name="signcolorAccent">#3399FF</color> <!-- 강조 색상 (주황색) -->
-    <color name="textColor">#333333</color> <!-- 어두운 텍스트 색상 -->
-    <color name="mainpagecolor">#44BBA4</color> <!-- 포인트 색 (기존 colorPrimary와 일치) -->
-    <color name="strokeColor">#44BBA4</color> <!-- 포인트 색 (기존 colorPrimary와 일치) -->
-    <color name="primaryBlue">#00498C</color>
-    <color name="textPrimary">#212121</color>
-    <color name="textSecondary">#757575</color>
-    <color name="backgroundLight">#F5F5F5</color>
-
-    <color name="purple_500">#6200EE</color>
-    <color name="purple_700">#3700B3</color>
-    <color name="teal_200">#03DAC5</color>
-
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
-
-
-
-
-
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <!-- DBook Blue Theme Colors -->
+    <color name="primaryBlue">#1565C0</color>
+    <color name="primaryBlueDark">#0D47A1</color>
+    <color name="primaryBlueLight">#42A5F5</color>
+    <color name="backgroundLight">#F2F6FC</color>
+    <color name="textPrimary">#111827</color>
+    <color name="textSecondary">#4B5563</color>
+    <color name="chatBackground">#E6F9E6</color>
+    <color name="chatInputBackground">#D2F5D2</color>
+    <color name="chatSendButton">#44BBA4</color>
+    <color name="loginBackground">#F5F5F5</color>
+    <color name="inputStrokeColor">#BDBDBD</color>
+    <color name="hintColor">#9E9E9E</color>
+    <color name="loginButtonColor">#00498C</color>
+    <color name="loginSignupTextColor">#00498C</color>
+    <color name="backgroundColor">#F0F0F0</color>
+    <color name="signbackgroundColor">#F8F8F8</color>
+    <color name="signcolorPrimary">#00498C</color>
+    <color name="signcolorAccent">#3399FF</color>
+    <color name="mainpagecolor">#44BBA4</color>
+    <color name="strokeColor">#44BBA4</color>
+    <color name="colorPrimary">#1565C0</color>
+    <color name="colorPrimaryDark">#0D47A1</color>
+    <color name="colorAccent">#42A5F5</color>
 </resources>

@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // 로그인 성공 시 메인 액티비티로 이동
-                    Intent intent = new Intent(LoginActivity.this, SearchActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     startActivity(intent);
                     finish();
                 }

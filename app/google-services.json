@@ -1,13 +1,14 @@
 {
   "project_info": {
-    "project_number": "853448396318",
-    "project_id": "d-book-b539b",
-    "storage_bucket": "d-book-b539b.firebasestorage.app"
+    "project_number": "610530247303",
+    "firebase_url": "https://d-book-a0b3c-default-rtdb.firebaseio.com",
+    "project_id": "d-book-a0b3c",
+    "storage_bucket": "d-book-a0b3c.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:853448396318:android:0a4c44f4a0ce907fd1680f",
+        "mobilesdk_app_id": "1:610530247303:android:c1a01caaee29b688646e22",
         "android_client_info": {
           "package_name": "com.example.d_book"
         }
@@ -15,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBZpWmizHjBpgi8kBppMtFcfJbnitRtMaY"
+          "current_key": "AIzaSyBVfps-niujT3Ybq8_UtcmoV4s8LtcuVuQ"
         }
       ],
       "services": {

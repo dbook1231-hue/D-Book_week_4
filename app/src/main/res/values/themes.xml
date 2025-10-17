@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="Theme.Dbook" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Primary brand colors -->
+        <item name="colorPrimary">@color/primaryBlue</item>
+        <item name="colorPrimaryVariant">@color/primaryBlueDark</item>
+        <item name="colorSecondary">@color/primaryBlueLight</item>
 
-    <!-- 기본 앱 테마 (AppCompat 기준) -->
-    <style name="Theme.DBook" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <!-- Status bar -->
+        <item name="android:statusBarColor">@color/primaryBlueDark</item>
+
+        <!-- Default colors/text -->
+        <item name="android:textColor">@color/textPrimary</item>
+        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:windowBackground">@color/backgroundLight</item>
     </style>
 
-    <!-- SplashActivity 전용 테마 -->
-    <style name="Theme.DBook.Splash" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowBackground">@color/colorPrimary</item>
+    <style name="Theme.Dbook.Splash" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowBackground">@color/primaryBlue</item>
+        <item name="android:statusBarColor">@color/primaryBlueDark</item>
     </style>
-
 </resources>
