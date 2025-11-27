@@ -60,6 +60,7 @@ public class SearchActivity extends AppCompatActivity {
             Intent intent = new Intent(SearchActivity.this, BookDetailActivity.class);
             intent.putExtra("title", item.getTitle());
             intent.putExtra("author", item.getAuthor());
+            intent.putExtra("thumbnail", item.getThumbnailUrl());
             startActivity(intent);
         });
         recyclerSearchResults.setLayoutManager(new LinearLayoutManager(this));

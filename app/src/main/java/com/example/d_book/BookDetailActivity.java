@@ -8,6 +8,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 
@@ -34,11 +35,22 @@ public class BookDetailActivity extends AppCompatActivity {
         com.google.android.material.chip.ChipGroup chipGroupKeywords = findViewById(R.id.chipGroupKeywords);
         android.widget.LinearLayout layoutReviews = findViewById(R.id.layoutReviews);
         TextView textReviewsEmpty = findViewById(R.id.textReviewsEmpty);
+        android.widget.ImageView imageCover = findViewById(R.id.imageCoverLarge);
 
         String title = getIntent().getStringExtra("title");
         String author = getIntent().getStringExtra("author");
+        String thumbnail = getIntent().getStringExtra("thumbnail");
         if (title != null) textTitle.setText(title);
         if (author != null) textAuthor.setText(author);
+        if (thumbnail != null && !thumbnail.isEmpty()) {
+            Glide.with(this)
+                    .load(thumbnail)
+                    .placeholder(R.drawable.ic_book_placeholder)
+                    .error(R.drawable.ic_book_placeholder)
+                    .into(imageCover);
+        } else {
+            imageCover.setImageResource(R.drawable.ic_book_placeholder);
+        }
 
         // Dummy storyline text
         textSummary.setText(getString(R.string.book_detail_summary_placeholder));
