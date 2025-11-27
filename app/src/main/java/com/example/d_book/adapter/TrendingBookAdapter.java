@@ -1,4 +1,4 @@
-package com.example.d_book.adapter;
+﻿package com.example.d_book.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -71,7 +71,13 @@ public class TrendingBookAdapter extends RecyclerView.Adapter<TrendingBookAdapte
             textAuthor.setText(item.getAuthor());
             textSearchCount.setText("검색량: " + item.getSearchCount());
 
-            if (item.getThumbnailUrl() != null && !item.getThumbnailUrl().isEmpty()) {
+            if (item.getThumbnailResId() != 0) {
+                Glide.with(itemView.getContext())
+                        .load(item.getThumbnailResId())
+                        .placeholder(R.drawable.ic_book_placeholder)
+                        .error(R.drawable.ic_book_placeholder)
+                        .into(imageThumbnail);
+            } else if (item.getThumbnailUrl() != null && !item.getThumbnailUrl().isEmpty()) {
                 Glide.with(itemView.getContext())
                         .load(item.getThumbnailUrl())
                         .placeholder(R.drawable.ic_book_placeholder)

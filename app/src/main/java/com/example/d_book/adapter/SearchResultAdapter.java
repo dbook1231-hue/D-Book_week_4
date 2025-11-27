@@ -68,8 +68,14 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
             textTitle.setText(item.getTitle());
             textAuthor.setText(item.getAuthor());
 
-            // Glide로 이미지 로드
-            if (item.getThumbnailUrl() != null && !item.getThumbnailUrl().isEmpty()) {
+            // Glide로 이미지 로드 (로컬 리소스 우선)
+            if (item.getThumbnailResId() != 0) {
+                Glide.with(itemView.getContext())
+                        .load(item.getThumbnailResId())
+                        .placeholder(R.drawable.ic_book_placeholder)
+                        .error(R.drawable.ic_book_placeholder)
+                        .into(imageThumbnail);
+            } else if (item.getThumbnailUrl() != null && !item.getThumbnailUrl().isEmpty()) {
                 Glide.with(itemView.getContext())
                         .load(item.getThumbnailUrl())
                         .placeholder(R.drawable.ic_book_placeholder)

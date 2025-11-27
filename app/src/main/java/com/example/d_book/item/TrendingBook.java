@@ -5,12 +5,22 @@ public class TrendingBook {
     private final String author;
     private final int searchCount;
     private final String thumbnailUrl;
+    private final int thumbnailResId;
 
     public TrendingBook(String title, String author, int searchCount, String thumbnailUrl) {
         this.title = title;
         this.author = author;
         this.searchCount = searchCount;
         this.thumbnailUrl = thumbnailUrl;
+        this.thumbnailResId = 0;
+    }
+
+    public TrendingBook(String title, String author, int searchCount, int thumbnailResId) {
+        this.title = title;
+        this.author = author;
+        this.searchCount = searchCount;
+        this.thumbnailResId = thumbnailResId;
+        this.thumbnailUrl = null;
     }
 
     public String getTitle() {
@@ -27,5 +37,9 @@ public class TrendingBook {
 
     public String getThumbnailUrl() {
         return thumbnailUrl;
+    }
+
+    public int getThumbnailResId() {
+        return thumbnailResId;
     }
 }
