@@ -103,6 +103,25 @@
                     android:overScrollMode="never" />
 
                 <TextView
+                    android:id="@+id/sectionRecommendationTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="내 후기 기반 추천"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerRecommendations"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:paddingBottom="12dp"
+                    android:clipToPadding="false"
+                    android:overScrollMode="never" />
+
+                <TextView
                     android:id="@+id/sectionLibraryTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

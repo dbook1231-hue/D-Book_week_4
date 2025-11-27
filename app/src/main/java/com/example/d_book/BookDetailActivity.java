@@ -83,6 +83,7 @@ public class BookDetailActivity extends AppCompatActivity {
                 return;
             }
             addReview(layoutReviews, "나", reviewText, "방금");
+            saveUserReview(title, reviewText);
             editReview.setText("");
             textReviewsEmpty.setVisibility(android.view.View.GONE);
             android.widget.Toast.makeText(this, "후기가 등록되었습니다.", android.widget.Toast.LENGTH_SHORT).show();
@@ -112,6 +113,15 @@ public class BookDetailActivity extends AppCompatActivity {
         textReviewBody.setText(body);
         textReviewMeta.setText(meta);
         container.addView(reviewItem);
+    }
+
+    private void saveUserReview(String title, String reviewText) {
+        if (title == null || reviewText == null || reviewText.isEmpty()) return;
+        android.content.SharedPreferences prefs = getSharedPreferences("user_reviews", MODE_PRIVATE);
+        String existing = prefs.getString("reviews", "");
+        String entry = title + "|" + reviewText.replace("|", " ");
+        String newValue = existing.isEmpty() ? entry : existing + "\n" + entry;
+        prefs.edit().putString("reviews", newValue).apply();
     }
 
     private BookDetailData getDetailData(String title) {

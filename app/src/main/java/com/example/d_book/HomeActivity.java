@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.SharedPreferences;
+import android.text.TextUtils;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
@@ -24,6 +26,8 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.firebase.auth.FirebaseAuth;
 import com.example.d_book.adapter.TrendingBookAdapter;
 import com.example.d_book.item.TrendingBook;
+import com.example.d_book.adapter.SearchResultAdapter;
+import com.example.d_book.item.SearchResultItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,6 +89,10 @@ public class HomeActivity extends AppCompatActivity {
         trendingRecycler.setLayoutManager(new LinearLayoutManager(this));
         TrendingBookAdapter trendingAdapter = new TrendingBookAdapter(this, createTrendingBooks(), item -> openSearchWithQuery(item.getTitle()));
         trendingRecycler.setAdapter(trendingAdapter);
+        RecyclerView recommendationsRecycler = findViewById(R.id.recyclerRecommendations);
+        recommendationsRecycler.setLayoutManager(new LinearLayoutManager(this));
+        SearchResultAdapter recommendationsAdapter = new SearchResultAdapter(this, createRecommendationsFromReviews(), item -> openSearchWithQuery(item.getTitle()));
+        recommendationsRecycler.setAdapter(recommendationsAdapter);
 
         View cardFavorites = findViewById(R.id.cardFavorites);
         View cardRecent = findViewById(R.id.cardRecent);
@@ -135,6 +143,53 @@ public class HomeActivity extends AppCompatActivity {
         books.add(new TrendingBook("나미야 잡화점의 기적", "히가시노 게이고", 1980, R.drawable.namiya_cover));
         books.add(new TrendingBook("어린 왕자", "앙투안 드 생텍쥐페리", 1870, "https://covers.openlibrary.org/b/isbn/9780156012195-L.jpg"));
         return books;
+    }
+
+    private List<SearchResultItem> createRecommendationsFromReviews() {
+        List<String> reviews = getSavedReviews();
+        List<SearchResultItem> recs = new ArrayList<>();
+
+        for (String review : reviews) {
+            String lower = review.toLowerCase();
+            if (lower.contains("마법") || lower.contains("호그와트") || lower.contains("마법사")) {
+                addIfNotExists(recs, new SearchResultItem("해리 포터와 비밀의 방", "J.K. 롤링", "https://covers.openlibrary.org/b/isbn/9780439064873-L.jpg"));
+                addIfNotExists(recs, new SearchResultItem("해리 포터와 불의 잔", "J.K. 롤링", "https://covers.openlibrary.org/b/isbn/9780439139601-L.jpg"));
+            }
+            if (lower.contains("따뜻") || lower.contains("위로") || lower.contains("편지") || lower.contains("잡화점")) {
+                addIfNotExists(recs, new SearchResultItem("나미야 잡화점의 기적", "히가시노 게이고", R.drawable.namiya_cover));
+            }
+            if (lower.contains("모험") || lower.contains("판타지") || lower.contains("여정")) {
+                addIfNotExists(recs, new SearchResultItem("반지의 제왕: 반지 원정대", "J.R.R. 톨킨", "https://covers.openlibrary.org/b/isbn/9780547928210-L.jpg"));
+            }
+        }
+
+        if (recs.isEmpty()) {
+            recs.add(new SearchResultItem("위대한 개츠비", "F. 스콧 피츠제럴드", "https://covers.openlibrary.org/b/isbn/9780743273565-L.jpg"));
+            recs.add(new SearchResultItem("어린 왕자", "앙투안 드 생텍쥐페리", "https://covers.openlibrary.org/b/isbn/9780156012195-L.jpg"));
+        }
+        return recs;
+    }
+
+    private List<String> getSavedReviews() {
+        SharedPreferences prefs = getSharedPreferences("user_reviews", MODE_PRIVATE);
+        String data = prefs.getString("reviews", "");
+        if (TextUtils.isEmpty(data)) return new ArrayList<>();
+        String[] lines = data.split("\\n");
+        List<String> list = new ArrayList<>();
+        for (String line : lines) {
+            String[] parts = line.split("\\|", 2);
+            if (parts.length == 2) {
+                list.add(parts[1]);
+            }
+        }
+        return list;
+    }
+
+    private void addIfNotExists(List<SearchResultItem> list, SearchResultItem item) {
+        for (SearchResultItem existing : list) {
+            if (existing.getTitle().equals(item.getTitle())) return;
+        }
+        list.add(item);
     }
 
     private void setupDots(LinearLayout container, int count) {
