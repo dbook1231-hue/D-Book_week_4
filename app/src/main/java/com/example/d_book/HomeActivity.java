@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.card.MaterialCardView;
 import android.widget.LinearLayout;
@@ -47,15 +48,14 @@ public class HomeActivity extends AppCompatActivity {
         MaterialToolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         TextInputEditText editSearch = findViewById(R.id.editSearch);
+        MaterialButton buttonSearch = findViewById(R.id.buttonSearch);
         editSearch.setOnEditorActionListener((v, actionId, event) -> {
-            CharSequence searchText = v.getText();
-            Intent intent = new Intent(this, SearchActivity.class);
-            if (searchText != null) {
-                intent.putExtra("query", searchText.toString());
-            }
-            startActivity(intent);
+            openSearchWithQuery(v.getText());
             return true;
         });
+        if (buttonSearch != null) {
+            buttonSearch.setOnClickListener(v -> openSearchWithQuery(editSearch.getText()));
+        }
 
         // Banner setup
         androidx.viewpager2.widget.ViewPager2 bannerPager = findViewById(R.id.bannerPager);
@@ -112,6 +112,14 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         setupQuickRead();
+    }
+
+    private void openSearchWithQuery(CharSequence searchText) {
+        Intent intent = new Intent(this, SearchActivity.class);
+        if (searchText != null && searchText.length() > 0) {
+            intent.putExtra("query", searchText.toString());
+        }
+        startActivity(intent);
     }
 
     private void setupDots(LinearLayout container, int count) {
