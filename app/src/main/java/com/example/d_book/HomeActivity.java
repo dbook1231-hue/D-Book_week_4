@@ -132,7 +132,7 @@ public class HomeActivity extends AppCompatActivity {
         books.add(new TrendingBook("반지의 제왕: 반지 원정대", "J.R.R. 톨킨", 2760, "https://covers.openlibrary.org/b/isbn/9780547928210-L.jpg"));
         books.add(new TrendingBook("반지의 제왕: 두 개의 탑", "J.R.R. 톨킨", 2450, "https://covers.openlibrary.org/b/isbn/9780547928203-L.jpg"));
         books.add(new TrendingBook("위대한 개츠비", "F. 스콧 피츠제럴드", 2120, "https://covers.openlibrary.org/b/isbn/9780743273565-L.jpg"));
-        books.add(new TrendingBook("나미야 잡화점의 기적", "히가시노 게이고", 1980, "https://covers.openlibrary.org/b/isbn/9784048914975-L.jpg"));
+        books.add(new TrendingBook("나미야 잡화점의 기적", "히가시노 게이고", 1980, "https://books.google.com/books/content?id=ZvtFBgAAQBAJ&printsec=frontcover&img=1&zoom=1"));
         books.add(new TrendingBook("어린 왕자", "앙투안 드 생텍쥐페리", 1870, "https://covers.openlibrary.org/b/isbn/9780156012195-L.jpg"));
         return books;
     }
