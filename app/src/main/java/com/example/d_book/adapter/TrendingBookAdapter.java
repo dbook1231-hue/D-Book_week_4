@@ -1,4 +1,4 @@
-﻿package com.example.d_book.adapter;
+package com.example.d_book.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
