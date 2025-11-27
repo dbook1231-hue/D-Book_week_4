@@ -22,6 +22,8 @@ import android.widget.LinearLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.example.d_book.adapter.TrendingBookAdapter;
+import com.example.d_book.item.TrendingBook;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,10 +81,10 @@ public class HomeActivity extends AppCompatActivity {
         updateDots(bannerDots, 0);
         bannerHandler.postDelayed(bannerRunnable, 5000);
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerRecommended);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        BookAdapter adapter = new BookAdapter(createDummyBooks());
-        recyclerView.setAdapter(adapter);
+        RecyclerView trendingRecycler = findViewById(R.id.recyclerTrending);
+        trendingRecycler.setLayoutManager(new LinearLayoutManager(this));
+        TrendingBookAdapter trendingAdapter = new TrendingBookAdapter(this, createTrendingBooks(), item -> openSearchWithQuery(item.getTitle()));
+        trendingRecycler.setAdapter(trendingAdapter);
 
         View cardFavorites = findViewById(R.id.cardFavorites);
         View cardRecent = findViewById(R.id.cardRecent);
@@ -120,6 +122,19 @@ public class HomeActivity extends AppCompatActivity {
             intent.putExtra("query", searchText.toString());
         }
         startActivity(intent);
+    }
+
+    private List<TrendingBook> createTrendingBooks() {
+        List<TrendingBook> books = new ArrayList<>();
+        books.add(new TrendingBook("해리 포터와 마법사의 돌", "J.K. 롤링", 5820, "https://covers.openlibrary.org/b/isbn/9780439708180-L.jpg"));
+        books.add(new TrendingBook("해리 포터와 비밀의 방", "J.K. 롤링", 4210, "https://covers.openlibrary.org/b/isbn/9780439064873-L.jpg"));
+        books.add(new TrendingBook("해리 포터와 아즈카반의 죄수", "J.K. 롤링", 3980, "https://covers.openlibrary.org/b/isbn/9780439136365-L.jpg"));
+        books.add(new TrendingBook("반지의 제왕: 반지 원정대", "J.R.R. 톨킨", 2760, "https://covers.openlibrary.org/b/isbn/9780547928210-L.jpg"));
+        books.add(new TrendingBook("반지의 제왕: 두 개의 탑", "J.R.R. 톨킨", 2450, "https://covers.openlibrary.org/b/isbn/9780547928203-L.jpg"));
+        books.add(new TrendingBook("위대한 개츠비", "F. 스콧 피츠제럴드", 2120, "https://covers.openlibrary.org/b/isbn/9780743273565-L.jpg"));
+        books.add(new TrendingBook("나미야 잡화점의 기적", "히가시노 게이고", 1980, "https://covers.openlibrary.org/b/isbn/9784048919832-L.jpg"));
+        books.add(new TrendingBook("어린 왕자", "앙투안 드 생텍쥐페리", 1870, "https://covers.openlibrary.org/b/isbn/9780156012195-L.jpg"));
+        return books;
     }
 
     private void setupDots(LinearLayout container, int count) {
@@ -167,16 +182,6 @@ public class HomeActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private List<Book> createDummyBooks() {
-        List<Book> books = new ArrayList<>();
-        books.add(new Book("클린 코드", "로버트 C. 마틴"));
-        books.add(new Book("오브젝트", "조영호"));
-        books.add(new Book("모던 자바 인 액션", "라울-게이브리얼 우르마"));
-        books.add(new Book("Effective Java", "조슈아 블로크"));
-        books.add(new Book("이것이 안드로이드다", "고돈호"));
-        return books;
     }
 
     private void setupQuickRead() {

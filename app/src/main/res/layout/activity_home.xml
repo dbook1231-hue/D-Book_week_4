@@ -85,16 +85,16 @@
                     android:orientation="horizontal" />
 
                 <TextView
-                    android:id="@+id/sectionRecommendedTitle"
+                    android:id="@+id/sectionTrendingTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/title_recommended"
+                    android:text="실시간 검색량"
                     android:textColor="@color/textPrimary"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerRecommended"
+                    android:id="@+id/recyclerTrending"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
