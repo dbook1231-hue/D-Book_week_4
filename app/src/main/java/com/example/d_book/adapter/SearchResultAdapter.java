@@ -73,6 +73,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
                 Glide.with(itemView.getContext())
                         .load(item.getThumbnailUrl())
                         .placeholder(R.drawable.ic_book_placeholder)
+                        .error(R.drawable.ic_book_placeholder)
                         .into(imageThumbnail);
             } else {
                 imageThumbnail.setImageResource(R.drawable.ic_book_placeholder);
