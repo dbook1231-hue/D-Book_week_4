@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Dbook" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand colors (dark) -->
+        <item name="colorPrimary">@color/primaryBlueDark</item>
+        <item name="colorPrimaryVariant">@color/primaryBlue</item>
+        <item name="colorSecondary">@color/primaryBlueLight</item>
+
+        <!-- Status bar -->
+        <item name="android:statusBarColor">@color/primaryBlueDark</item>
+
+        <!-- Default text and background -->
+        <item name="android:textColor">@color/textPrimaryDark</item>
+        <item name="android:windowBackground">@color/backgroundDark</item>
+        <item name="backgroundColor">@color/backgroundDark</item>
+
+        <!-- Navigation bar -->
+        <item name="android:navigationBarColor">@color/darkBackground</item>
+    </style>
+
+    <style name="Theme.Dbook.Splash" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowBackground">@color/primaryBlueDark</item>
+        <item name="android:statusBarColor">@color/primaryBlueDark</item>
+    </style>
+</resources>
