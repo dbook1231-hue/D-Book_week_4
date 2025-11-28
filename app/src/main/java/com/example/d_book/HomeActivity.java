@@ -13,14 +13,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.SharedPreferences;
+import android.text.TextUtils;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.card.MaterialCardView;
 import android.widget.LinearLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.example.d_book.adapter.TrendingBookAdapter;
+import com.example.d_book.item.TrendingBook;
+import com.example.d_book.adapter.SearchResultAdapter;
+import com.example.d_book.item.SearchResultItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,15 +54,14 @@ public class HomeActivity extends AppCompatActivity {
         MaterialToolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         TextInputEditText editSearch = findViewById(R.id.editSearch);
+        MaterialButton buttonSearch = findViewById(R.id.buttonSearch);
         editSearch.setOnEditorActionListener((v, actionId, event) -> {
-            CharSequence searchText = v.getText();
-            Intent intent = new Intent(this, SearchActivity.class);
-            if (searchText != null) {
-                intent.putExtra("query", searchText.toString());
-            }
-            startActivity(intent);
+            openSearchWithQuery(v.getText());
             return true;
         });
+        if (buttonSearch != null) {
+            buttonSearch.setOnClickListener(v -> openSearchWithQuery(editSearch.getText()));
+        }
 
         // Banner setup
         androidx.viewpager2.widget.ViewPager2 bannerPager = findViewById(R.id.bannerPager);
@@ -79,10 +85,14 @@ public class HomeActivity extends AppCompatActivity {
         updateDots(bannerDots, 0);
         bannerHandler.postDelayed(bannerRunnable, 5000);
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerRecommended);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        BookAdapter adapter = new BookAdapter(createDummyBooks());
-        recyclerView.setAdapter(adapter);
+        RecyclerView trendingRecycler = findViewById(R.id.recyclerTrending);
+        trendingRecycler.setLayoutManager(new LinearLayoutManager(this));
+        TrendingBookAdapter trendingAdapter = new TrendingBookAdapter(this, createTrendingBooks(), item -> openSearchWithQuery(item.getTitle()));
+        trendingRecycler.setAdapter(trendingAdapter);
+        RecyclerView recommendationsRecycler = findViewById(R.id.recyclerRecommendations);
+        recommendationsRecycler.setLayoutManager(new LinearLayoutManager(this));
+        SearchResultAdapter recommendationsAdapter = new SearchResultAdapter(this, createRecommendationsFromReviews(), item -> openSearchWithQuery(item.getTitle()));
+        recommendationsRecycler.setAdapter(recommendationsAdapter);
 
         View cardFavorites = findViewById(R.id.cardFavorites);
         View cardRecent = findViewById(R.id.cardRecent);
@@ -112,6 +122,74 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         setupQuickRead();
+    }
+
+    private void openSearchWithQuery(CharSequence searchText) {
+        Intent intent = new Intent(this, SearchActivity.class);
+        if (searchText != null && searchText.length() > 0) {
+            intent.putExtra("query", searchText.toString());
+        }
+        startActivity(intent);
+    }
+
+    private List<TrendingBook> createTrendingBooks() {
+        List<TrendingBook> books = new ArrayList<>();
+        books.add(new TrendingBook("해리 포터와 마법사의 돌", "J.K. 롤링", 5820, "https://covers.openlibrary.org/b/isbn/9780439708180-L.jpg"));
+        books.add(new TrendingBook("해리 포터와 비밀의 방", "J.K. 롤링", 4210, "https://covers.openlibrary.org/b/isbn/9780439064873-L.jpg"));
+        books.add(new TrendingBook("해리 포터와 아즈카반의 죄수", "J.K. 롤링", 3980, "https://covers.openlibrary.org/b/isbn/9780439136365-L.jpg"));
+        books.add(new TrendingBook("반지의 제왕: 반지 원정대", "J.R.R. 톨킨", 2760, "https://covers.openlibrary.org/b/isbn/9780547928210-L.jpg"));
+        books.add(new TrendingBook("반지의 제왕: 두 개의 탑", "J.R.R. 톨킨", 2450, "https://covers.openlibrary.org/b/isbn/9780547928203-L.jpg"));
+        books.add(new TrendingBook("위대한 개츠비", "F. 스콧 피츠제럴드", 2120, "https://covers.openlibrary.org/b/isbn/9780743273565-L.jpg"));
+        books.add(new TrendingBook("나미야 잡화점의 기적", "히가시노 게이고", 1980, R.drawable.namiya_cover));
+        books.add(new TrendingBook("어린 왕자", "앙투안 드 생텍쥐페리", 1870, "https://covers.openlibrary.org/b/isbn/9780156012195-L.jpg"));
+        return books;
+    }
+
+    private List<SearchResultItem> createRecommendationsFromReviews() {
+        List<String> reviews = getSavedReviews();
+        List<SearchResultItem> recs = new ArrayList<>();
+
+        for (String review : reviews) {
+            String lower = review.toLowerCase();
+            if (lower.contains("마법") || lower.contains("호그와트") || lower.contains("마법사")) {
+                addIfNotExists(recs, new SearchResultItem("해리 포터와 비밀의 방", "J.K. 롤링", "https://covers.openlibrary.org/b/isbn/9780439064873-L.jpg"));
+                addIfNotExists(recs, new SearchResultItem("해리 포터와 불의 잔", "J.K. 롤링", "https://covers.openlibrary.org/b/isbn/9780439139601-L.jpg"));
+            }
+            if (lower.contains("따뜻") || lower.contains("위로") || lower.contains("편지") || lower.contains("잡화점")) {
+                addIfNotExists(recs, new SearchResultItem("나미야 잡화점의 기적", "히가시노 게이고", R.drawable.namiya_cover));
+            }
+            if (lower.contains("모험") || lower.contains("판타지") || lower.contains("여정")) {
+                addIfNotExists(recs, new SearchResultItem("반지의 제왕: 반지 원정대", "J.R.R. 톨킨", "https://covers.openlibrary.org/b/isbn/9780547928210-L.jpg"));
+            }
+        }
+
+        if (recs.isEmpty()) {
+            recs.add(new SearchResultItem("위대한 개츠비", "F. 스콧 피츠제럴드", "https://covers.openlibrary.org/b/isbn/9780743273565-L.jpg"));
+            recs.add(new SearchResultItem("어린 왕자", "앙투안 드 생텍쥐페리", "https://covers.openlibrary.org/b/isbn/9780156012195-L.jpg"));
+        }
+        return recs;
+    }
+
+    private List<String> getSavedReviews() {
+        SharedPreferences prefs = getSharedPreferences("user_reviews", MODE_PRIVATE);
+        String data = prefs.getString("reviews", "");
+        if (TextUtils.isEmpty(data)) return new ArrayList<>();
+        String[] lines = data.split("\\n");
+        List<String> list = new ArrayList<>();
+        for (String line : lines) {
+            String[] parts = line.split("\\|", 2);
+            if (parts.length == 2) {
+                list.add(parts[1]);
+            }
+        }
+        return list;
+    }
+
+    private void addIfNotExists(List<SearchResultItem> list, SearchResultItem item) {
+        for (SearchResultItem existing : list) {
+            if (existing.getTitle().equals(item.getTitle())) return;
+        }
+        list.add(item);
     }
 
     private void setupDots(LinearLayout container, int count) {
@@ -159,16 +237,6 @@ public class HomeActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private List<Book> createDummyBooks() {
-        List<Book> books = new ArrayList<>();
-        books.add(new Book("클린 코드", "로버트 C. 마틴"));
-        books.add(new Book("오브젝트", "조영호"));
-        books.add(new Book("모던 자바 인 액션", "라울-게이브리얼 우르마"));
-        books.add(new Book("Effective Java", "조슈아 블로크"));
-        books.add(new Book("이것이 안드로이드다", "고돈호"));
-        return books;
     }
 
     private void setupQuickRead() {

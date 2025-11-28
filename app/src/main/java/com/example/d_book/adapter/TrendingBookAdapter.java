@@ -6,69 +6,71 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.example.d_book.R;  // 반드시 추가
-
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.d_book.item.SearchResultItem;
+import com.example.d_book.R;
+import com.example.d_book.item.TrendingBook;
 
 import java.util.List;
 
-public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.SearchViewHolder> {
+public class TrendingBookAdapter extends RecyclerView.Adapter<TrendingBookAdapter.TrendingViewHolder> {
 
-    private Context context;
-    private List<SearchResultItem> searchResults;
-    private OnItemClickListener listener;
-
-    // 클릭 이벤트 인터페이스
     public interface OnItemClickListener {
-        void onItemClick(SearchResultItem item);
+        void onItemClick(TrendingBook item);
     }
 
-    public SearchResultAdapter(Context context, List<SearchResultItem> searchResults, OnItemClickListener listener) {
+    private final Context context;
+    private final List<TrendingBook> items;
+    private final OnItemClickListener listener;
+
+    public TrendingBookAdapter(Context context, List<TrendingBook> items, OnItemClickListener listener) {
         this.context = context;
-        this.searchResults = searchResults;
+        this.items = items;
         this.listener = listener;
     }
 
     @NonNull
     @Override
-    public SearchViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_search_result, parent, false);
-        return new SearchViewHolder(view);
+    public TrendingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_trending_book, parent, false);
+        return new TrendingViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SearchViewHolder holder, int position) {
-        SearchResultItem item = searchResults.get(position);
-        holder.bind(item, listener);
+    public void onBindViewHolder(@NonNull TrendingViewHolder holder, int position) {
+        holder.bind(items.get(position), position, listener);
     }
 
     @Override
     public int getItemCount() {
-        return searchResults.size();
+        return items.size();
     }
 
-    static class SearchViewHolder extends RecyclerView.ViewHolder {
-
+    static class TrendingViewHolder extends RecyclerView.ViewHolder {
+        TextView textRank;
         ImageView imageThumbnail;
-        TextView textTitle, textAuthor;
+        TextView textTitle;
+        TextView textAuthor;
+        TextView textSearchCount;
 
-        public SearchViewHolder(@NonNull View itemView) {
+        public TrendingViewHolder(@NonNull View itemView) {
             super(itemView);
+            textRank = itemView.findViewById(R.id.textRank);
             imageThumbnail = itemView.findViewById(R.id.imageThumbnail);
             textTitle = itemView.findViewById(R.id.textTitle);
             textAuthor = itemView.findViewById(R.id.textAuthor);
+            textSearchCount = itemView.findViewById(R.id.textSearchCount);
         }
 
-        public void bind(final SearchResultItem item, final OnItemClickListener listener) {
+        public void bind(final TrendingBook item, int position, final OnItemClickListener listener) {
+            textRank.setText(String.valueOf(position + 1));
             textTitle.setText(item.getTitle());
             textAuthor.setText(item.getAuthor());
+            textSearchCount.setText("검색량: " + item.getSearchCount());
 
-            // Glide로 이미지 로드 (로컬 리소스 우선)
             if (item.getThumbnailResId() != 0) {
                 Glide.with(itemView.getContext())
                         .load(item.getThumbnailResId())
@@ -85,7 +87,6 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
                 imageThumbnail.setImageResource(R.drawable.ic_book_placeholder);
             }
 
-            // 클릭 이벤트
             itemView.setOnClickListener(v -> listener.onItemClick(item));
         }
     }

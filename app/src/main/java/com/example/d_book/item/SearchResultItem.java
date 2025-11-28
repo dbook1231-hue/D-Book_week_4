@@ -4,12 +4,21 @@ public class SearchResultItem {
 
     private String title;
     private String author;
-    private String thumbnailUrl; // ← 썸네일 URL 추가
+    private String thumbnailUrl; // 썸네일 이미지 URL 또는 리소스
+    private int thumbnailResId; // 로컬 리소스 ID
 
     public SearchResultItem(String title, String author, String thumbnailUrl) {
         this.title = title;
         this.author = author;
         this.thumbnailUrl = thumbnailUrl;
+        this.thumbnailResId = 0;
+    }
+
+    public SearchResultItem(String title, String author, int thumbnailResId) {
+        this.title = title;
+        this.author = author;
+        this.thumbnailResId = thumbnailResId;
+        this.thumbnailUrl = null;
     }
 
     public String getTitle() {
@@ -24,8 +33,15 @@ public class SearchResultItem {
         return thumbnailUrl;
     }
 
-    // 필요 시 setter 추가 가능
+    public int getThumbnailResId() {
+        return thumbnailResId;
+    }
+
     public void setThumbnailUrl(String thumbnailUrl) {
         this.thumbnailUrl = thumbnailUrl;
+    }
+
+    public void setThumbnailResId(int thumbnailResId) {
+        this.thumbnailResId = thumbnailResId;
     }
 }

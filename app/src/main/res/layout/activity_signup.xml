@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:padding="16dp"
-    android:background="@color/signbackgroundColor">
+    android:background="?attr/backgroundColor">
 
     <ImageView
         android:src="@drawable/ic_add_to_photos_black_24dp"
