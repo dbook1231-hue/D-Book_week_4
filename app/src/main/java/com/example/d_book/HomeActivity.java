@@ -68,9 +68,9 @@ public class HomeActivity extends AppCompatActivity {
         this.bannerPagerRef = bannerPager;
         LinearLayout bannerDots = findViewById(R.id.bannerDots);
         java.util.List<Banner> bannerData = new java.util.ArrayList<>();
-        bannerData.add(new Banner(R.drawable.banner_1, "신간 추천"));
-        bannerData.add(new Banner(R.drawable.banner_2, "이벤트 할인"));
-        bannerData.add(new Banner(R.drawable.banner_3, "베스트셀러"));
+        bannerData.add(new Banner(R.drawable.banner_winter, "따뜻한 한 권으로 채우는 겨울 밤"));
+        bannerData.add(new Banner(R.drawable.banner_magic, "마법 같은 모험이 시작돼요"));
+        bannerData.add(new Banner(R.drawable.banner_letter, "편지처럼 마음을 건네는 이야기"));
         bannerPager.setAdapter(new BannerAdapter(bannerData));
         // setup small custom dots manually for full size control
         setupDots(bannerDots, bannerData.size());
