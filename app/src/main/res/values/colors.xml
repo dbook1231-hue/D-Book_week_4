@@ -19,6 +19,7 @@
     <color name="chatSendButton">#44BBA4</color>
     <color name="loginBackground">#F5F5F5</color>
     <color name="inputStrokeColor">#BDBDBD</color>
+    <color name="categoryColor">#BDBDBD</color>
     <color name="hintColor">#9E9E9E</color>
     <color name="loginButtonColor">#00498C</color>
     <color name="loginSignupTextColor">#00498C</color>
@@ -32,10 +33,17 @@
     <color name="colorPrimaryDark">#0D47A1</color>
     <color name="colorAccent">#42A5F5</color>
 
+    <color name="text_black">#000000</color>
+    <color name="text_hint_black">#666666</color>
+
     <!-- Text colors -->
     <color name="textPrimaryDark">#FFFFFF</color>
 
     <!-- Background colors -->
     <color name="backgroundDark">#121212</color>
     <color name="darkBackground">#121212</color>
+    <color name="darkcategoryColor">#2A2A2A</color>
+    categoryDark
+    <color name="categoryLight">#BDBDBD</color>
+    <color name="categoryDark">#2A2A2A</color>
 </resources>

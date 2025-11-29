@@ -1,11 +1,13 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <Preference
+        android:layout="@layout/preference_item_milli"
         android:key="change_password"
         android:title="비밀번호 변경"
         android:summary="현재 비밀번호, 새 비밀번호 설정"/>
 
     <Preference
+        android:layout="@layout/preference_item_milli"
         android:key="logout"
         android:title="로그아웃"
         android:summary="현재 계정에서 로그아웃합니다" />

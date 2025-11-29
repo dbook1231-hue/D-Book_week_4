@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -20,10 +21,10 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -31,7 +32,8 @@ import com.google.firebase.storage.StorageReference;
 public class ProfileSettingsFragment extends Fragment {
 
     private ImageView imageProfile;
-    private MaterialButton buttonChangeProfileImage, buttonChangeNickname;
+    private ImageButton buttonChangeProfileImage;
+    private MaterialButton buttonChangeNickname;
     private TextInputEditText editNickname;
 
     private FirebaseUser currentUser;
@@ -50,16 +52,19 @@ public class ProfileSettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile_settings, container, false);
 
+        // --- 뷰 초기화 ---
         imageProfile = view.findViewById(R.id.imageProfile);
-        buttonChangeProfileImage = view.findViewById(R.id.buttonChangeProfileImage);
+        buttonChangeProfileImage = view.findViewById(R.id.buttonChangeProfileImage); // ImageButton
         buttonChangeNickname = view.findViewById(R.id.buttonChangeNickname);
         editNickname = view.findViewById(R.id.editNickname);
 
+        // --- Firebase ---
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         usersRef = FirebaseDatabase.getInstance().getReference("users");
 
         loadUserProfile();
 
+        // --- 클릭 이벤트 ---
         buttonChangeProfileImage.setOnClickListener(v -> chooseProfileImage());
         buttonChangeNickname.setOnClickListener(v -> {
             String newNickname = editNickname.getText().toString().trim();
@@ -69,7 +74,7 @@ public class ProfileSettingsFragment extends Fragment {
         return view;
     }
 
-    // --- DB에서 사용자 정보 불러오기 ---
+    // --- 사용자 정보 불러오기 ---
     private void loadUserProfile() {
         if (currentUser == null) return;
 

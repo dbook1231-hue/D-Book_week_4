@@ -17,6 +17,7 @@
 
         <!-- Navigation bar -->
         <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:category">@color/categoryLight</item>
     </style>
 
     <style name="Theme.Dbook.Splash" parent="Theme.MaterialComponents.DayNight.NoActionBar">

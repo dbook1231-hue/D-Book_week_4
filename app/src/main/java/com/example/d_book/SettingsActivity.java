@@ -22,6 +22,10 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        // 🔥 저장된 테마 적용 — super.onCreate() 전에 실행
+        applySavedTheme();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
@@ -52,6 +56,27 @@ public class SettingsActivity extends AppCompatActivity {
         return true;
     }
 
+    // -------------------------
+    // 테마 적용 헬퍼
+    // -------------------------
+    private void applySavedTheme() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String theme = prefs.getString("theme", "light");
+
+        switch (theme) {
+            case "light":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+            case "dark":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+            case "system":
+            default:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
+        }
+    }
+
     // 테마 속성 색 가져오기
     private int getThemeColor(int attr) {
         int[] attrs = {attr};
@@ -68,13 +93,20 @@ public class SettingsActivity extends AppCompatActivity {
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+
+            // 🔹 기존 Boolean 값 제거 (ClassCastException 방지)
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+            if (prefs.contains("notifications") && !(prefs.getAll().get("notifications") instanceof String)) {
+                prefs.edit().remove("notifications").apply();
+            }
+
             setPreferencesFromResource(R.xml.preferences, rootKey);
 
-            // 프로필 클릭 → ProfileSettingsFragment
+            // 🔹 프로필 클릭 → ProfileSettingsFragment
             Preference profilePref = findPreference("profile");
             if (profilePref != null) {
                 profilePref.setOnPreferenceClickListener(preference -> {
-                    requireActivity().getSupportFragmentManager()
+                    getParentFragmentManager()
                             .beginTransaction()
                             .replace(R.id.settings_container, new ProfileSettingsFragment())
                             .addToBackStack(null)
@@ -83,11 +115,11 @@ public class SettingsActivity extends AppCompatActivity {
                 });
             }
 
-            // 계정 클릭 → AccountSettingsFragment
+            // 🔹 계정 클릭 → AccountSettingsFragment
             Preference accountPref = findPreference("account");
             if (accountPref != null) {
                 accountPref.setOnPreferenceClickListener(preference -> {
-                    requireActivity().getSupportFragmentManager()
+                    getParentFragmentManager()
                             .beginTransaction()
                             .replace(R.id.settings_container, new AccountSettingsFragment())
                             .addToBackStack(null)
@@ -96,8 +128,8 @@ public class SettingsActivity extends AppCompatActivity {
                 });
             }
 
-            // 알림 클릭
-            Preference notificationsPref = findPreference("notifications");
+            // 🔹 알림 설정 클릭
+            ListPreference notificationsPref = findPreference("notifications");
             if (notificationsPref != null) {
                 notificationsPref.setOnPreferenceClickListener(preference -> {
                     Toast.makeText(getContext(), "알림 설정 클릭됨", Toast.LENGTH_SHORT).show();
@@ -105,20 +137,20 @@ public class SettingsActivity extends AppCompatActivity {
                 });
             }
 
-            // 테마 변경 처리
+            // 🔹 테마 변경 처리
             ListPreference themePref = findPreference("theme");
             if (themePref != null) {
                 themePref.setOnPreferenceChangeListener((preference, newValue) -> {
-                    String theme = newValue.toString();
+                    String selectedTheme = newValue.toString();
 
                     // SharedPreferences에 저장
                     SharedPreferences.Editor editor =
                             PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
-                    editor.putString("theme", theme);
+                    editor.putString("theme", selectedTheme);
                     editor.apply();
 
                     // 모드 적용
-                    switch (theme) {
+                    switch (selectedTheme) {
                         case "light":
                             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                             break;
@@ -130,13 +162,13 @@ public class SettingsActivity extends AppCompatActivity {
                             break;
                     }
 
-                    // Activity 재시작 → 모든 UI 갱신 + 배경 적용
+                    // Activity 재시작 → UI 갱신
                     if (getActivity() != null) getActivity().recreate();
                     return true;
                 });
             }
 
-            // 앱 정보 클릭
+            // 🔹 앱 정보 클릭
             Preference aboutPref = findPreference("about");
             if (aboutPref != null) {
                 aboutPref.setOnPreferenceClickListener(preference -> {

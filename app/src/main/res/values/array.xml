@@ -10,4 +10,18 @@
         <item>dark</item>
         <item>system</item>
     </string-array>
+
+    <string-array name="theme2_options">
+        <item>알림 설정</item>
+        <item>알림 해제</item>
+    </string-array>
+
+    <string-array name="theme2_values">
+        <item>true</item>
+        <item>false</item>
+        <item></item>
+    </string-array>
+
 </resources>
+
+

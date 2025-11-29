@@ -1,23 +1,35 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="👤 사용자">
+    <PreferenceCategory
+        android:layout="@layout/preference_category_milli"
+        android:title="👤 사용자">
         <Preference
+            android:layout="@layout/preference_item_milli"
             android:key="profile"
             android:title="프로필 관리"
-            android:summary="닉네임, 프로필 사진 변경"/>
+            android:summary="닉네임, 프로필 사진 변경"
+            android:widgetLayout="@layout/preference_divider"/>
         <Preference
+            android:layout="@layout/preference_item_milli"
             android:key="account"
             android:title="계정 관리"
             android:summary="비밀번호 변경, 로그아웃"/>
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="⚙️ 앱 설정">
-        <SwitchPreferenceCompat
+    <PreferenceCategory
+        android:layout="@layout/preference_category_milli"
+        android:title="⚙️ 앱 설정">
+        <ListPreference
+            android:layout="@layout/preference_item_milli"
             android:key="notifications"
             android:title="알림 설정"
             android:summary="푸시 알림 받기"
-            android:defaultValue="true"/>
+            android:dialogTitle="알림 설정"
+            android:entries="@array/theme2_options"
+            android:entryValues="@array/theme2_values"
+            android:defaultValue="true" />
         <ListPreference
+            android:layout="@layout/preference_item_milli"
             android:key="theme"
             android:title="테마 변경"
             android:summary="라이트/다크/시스템 모드 선택"
@@ -27,8 +39,11 @@
             android:defaultValue="light"/>
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="ℹ️ 정보">
+    <PreferenceCategory
+        android:layout="@layout/preference_category_milli"
+        android:title="ℹ️ 정보">
         <Preference
+            android:layout="@layout/preference_item_milli"
             android:key="about"
             android:title="앱 정보"
             android:summary="버전, 개발자 정보"/>
