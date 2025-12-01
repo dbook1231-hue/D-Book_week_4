@@ -1,8 +1,12 @@
 package com.example.d_book;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -10,6 +14,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.app.NotificationCompat;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -96,7 +101,8 @@ public class SettingsActivity extends AppCompatActivity {
 
             // 🔹 기존 Boolean 값 제거 (ClassCastException 방지)
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-            if (prefs.contains("notifications") && !(prefs.getAll().get("notifications") instanceof String)) {
+            if (prefs.contains("notifications") &&
+                    !(prefs.getAll().get("notifications") instanceof String)) {
                 prefs.edit().remove("notifications").apply();
             }
 
@@ -128,12 +134,24 @@ public class SettingsActivity extends AppCompatActivity {
                 });
             }
 
-            // 🔹 알림 설정 클릭
+            // -------------------------------------------
+            // 🔥 알림 설정 변경 처리 (핵심 기능)
+            // -------------------------------------------
             ListPreference notificationsPref = findPreference("notifications");
             if (notificationsPref != null) {
-                notificationsPref.setOnPreferenceClickListener(preference -> {
-                    Toast.makeText(getContext(), "알림 설정 클릭됨", Toast.LENGTH_SHORT).show();
-                    return true;
+                notificationsPref.setOnPreferenceChangeListener((preference, newValue) -> {
+
+                    String value = newValue.toString();  // on / off
+
+                    if (value.equals("on")) {
+                        Toast.makeText(getContext(), "푸시 알림이 활성화되었습니다.", Toast.LENGTH_SHORT).show();
+                        enableNotifications();   // 알림 켜기
+                    } else {
+                        Toast.makeText(getContext(), "푸시 알림이 비활성화되었습니다.", Toast.LENGTH_SHORT).show();
+                        disableNotifications();  // 알림 끄기
+                    }
+
+                    return true; // 값 저장
                 });
             }
 
@@ -176,6 +194,40 @@ public class SettingsActivity extends AppCompatActivity {
                     return true;
                 });
             }
+        }
+
+        // --------------------------------------------------------
+        // 🔥 실제 알림 ON 함수 (테스트용 로컬 알림 발송)
+        // --------------------------------------------------------
+        private void enableNotifications() {
+            if (getContext() == null) return;
+
+            NotificationManager manager =
+                    (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                NotificationChannel channel = new NotificationChannel(
+                        "default",
+                        "기본 알림",
+                        NotificationManager.IMPORTANCE_DEFAULT
+                );
+                manager.createNotificationChannel(channel);
+            }
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(), "default")
+                    .setContentTitle("알림 활성화")
+                    .setContentText("앞으로 푸시 알림을 받을 수 있습니다.")
+                    .setSmallIcon(R.drawable.ic_notification)
+                    .setAutoCancel(true);
+
+            manager.notify(1001, builder.build());
+        }
+
+        // --------------------------------------------------------
+        // 🔥 알림 OFF 함수
+        // --------------------------------------------------------
+        private void disableNotifications() {
+            Toast.makeText(getContext(), "알림이 꺼졌습니다.", Toast.LENGTH_SHORT).show();
         }
     }
 }

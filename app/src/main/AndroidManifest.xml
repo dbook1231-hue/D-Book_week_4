@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- 🔥 알림권한 (Android 13 이상 필수) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- 인터넷 관련 권한 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -14,14 +18,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Dbook">
+
+        <!-- Firebase 기본 알림 설정 -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/loading_icon" />
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="default_channel" />
 
-        <activity android:name=".ChangePasswordActivity"
+        <activity
+            android:name=".ChangePasswordActivity"
             android:label="비밀번호 변경"
             android:parentActivityName=".SettingsActivity"
             android:theme="@style/Theme.Dbook" />
@@ -37,51 +45,61 @@
             android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.Dbook" />
+
         <activity
             android:name=".ReaderActivity"
             android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.Dbook" />
+
         <activity
             android:name=".BookDetailActivity"
             android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.Dbook" />
+
         <activity
             android:name=".HomeActivity"
             android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.Dbook" />
+
         <activity
             android:name=".SearchActivity"
             android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.Dbook" />
+
         <activity
             android:name=".LoginActivity"
             android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.Dbook" />
+
         <activity
             android:name=".SignupActivity"
             android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.Dbook" />
+
         <activity
             android:name=".SettingsActivity"
             android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.Dbook" />
+
         <activity
             android:name=".AboutActivity"
             android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.Dbook" />
+
         <activity
             android:name=".MainActivity"
             android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.Dbook" />
+
         <activity
             android:name=".SplashActivity"
             android:exported="true"
@@ -91,6 +109,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

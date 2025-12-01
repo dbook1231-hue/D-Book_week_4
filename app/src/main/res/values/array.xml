@@ -11,16 +11,16 @@
         <item>system</item>
     </string-array>
 
-    <string-array name="theme2_options">
+    <string-array name="notification_options">
         <item>알림 설정</item>
         <item>알림 해제</item>
     </string-array>
 
-    <string-array name="theme2_values">
-        <item>true</item>
-        <item>false</item>
-        <item></item>
+    <string-array name="notification_values">
+        <item>on</item>
+        <item>off</item>
     </string-array>
+
 
 </resources>
 

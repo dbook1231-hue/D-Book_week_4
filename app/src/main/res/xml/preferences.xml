@@ -24,10 +24,10 @@
             android:key="notifications"
             android:title="알림 설정"
             android:summary="푸시 알림 받기"
-            android:dialogTitle="알림 설정"
-            android:entries="@array/theme2_options"
-            android:entryValues="@array/theme2_values"
-            android:defaultValue="true" />
+            android:entries="@array/notification_options"
+            android:entryValues="@array/notification_values"
+            android:defaultValue="on" />
+
         <ListPreference
             android:layout="@layout/preference_item_milli"
             android:key="theme"
