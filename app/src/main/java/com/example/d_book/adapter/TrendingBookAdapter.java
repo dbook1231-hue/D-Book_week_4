@@ -54,7 +54,7 @@ public class TrendingBookAdapter extends RecyclerView.Adapter<TrendingBookAdapte
         ImageView imageThumbnail;
         TextView textTitle;
         TextView textAuthor;
-        TextView textSearchCount;
+        TextView textVisitCount;
 
         public TrendingViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -62,15 +62,16 @@ public class TrendingBookAdapter extends RecyclerView.Adapter<TrendingBookAdapte
             imageThumbnail = itemView.findViewById(R.id.imageThumbnail);
             textTitle = itemView.findViewById(R.id.textTitle);
             textAuthor = itemView.findViewById(R.id.textAuthor);
-            textSearchCount = itemView.findViewById(R.id.textSearchCount);
+            textVisitCount = itemView.findViewById(R.id.textSearchCount); // layout id 그대로 사용
         }
 
         public void bind(final TrendingBook item, int position, final OnItemClickListener listener) {
             textRank.setText(String.valueOf(position + 1));
             textTitle.setText(item.getTitle());
             textAuthor.setText(item.getAuthor());
-            textSearchCount.setText("검색량: " + item.getSearchCount());
+            textVisitCount.setText("검색량: " + item.getVisitCount()); // 🔹 searchCount → visitCount
 
+            // 이미지 로딩: 로컬 > URL > 기본
             if (item.getThumbnailResId() != 0) {
                 Glide.with(itemView.getContext())
                         .load(item.getThumbnailResId())
