@@ -6,22 +6,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.example.d_book.R;  // 반드시 추가
 
+import com.bumptech.glide.Glide;
+import com.example.d_book.R;
+import com.example.d_book.item.SearchResultItem;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
-import com.example.d_book.item.SearchResultItem;
 
 import java.util.List;
 
 public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.SearchViewHolder> {
 
-    private Context context;
-    private List<SearchResultItem> searchResults;
-    private OnItemClickListener listener;
+    private final Context context;
+    private final List<SearchResultItem> searchResults;
+    private final OnItemClickListener listener;
 
     // 클릭 이벤트 인터페이스
     public interface OnItemClickListener {
@@ -49,33 +48,46 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
 
     @Override
     public int getItemCount() {
-        return searchResults.size();
+        return (searchResults != null) ? searchResults.size() : 0;
     }
 
     static class SearchViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView imageThumbnail;
-        TextView textTitle, textAuthor;
+        private final ImageView imageThumbnail;
+        private final TextView textTitle;
+        private final TextView textAuthor;
+        private final TextView textCategory;
 
         public SearchViewHolder(@NonNull View itemView) {
             super(itemView);
             imageThumbnail = itemView.findViewById(R.id.imageThumbnail);
             textTitle = itemView.findViewById(R.id.textTitle);
             textAuthor = itemView.findViewById(R.id.textAuthor);
+            textCategory = itemView.findViewById(R.id.textCategory); // item_search_result.xml에 반드시 존재
         }
 
         public void bind(final SearchResultItem item, final OnItemClickListener listener) {
-            textTitle.setText(item.getTitle());
-            textAuthor.setText(item.getAuthor());
+            if (item == null) return;
 
-            // Glide로 이미지 로드 (로컬 리소스 우선)
-            if (item.getThumbnailResId() != 0) {
+            textTitle.setText(item.getTitle() != null ? item.getTitle() : "제목 없음");
+            textAuthor.setText(item.getAuthor() != null ? item.getAuthor() : "저자 없음");
+
+            // 카테고리 표시
+            if (item.getCategory() != null && !item.getCategory().isEmpty()) {
+                textCategory.setText(item.getCategory());
+                textCategory.setVisibility(View.VISIBLE);
+            } else {
+                textCategory.setVisibility(View.GONE);
+            }
+
+            // 이미지 로딩: 로컬 > URL > 기본
+            if (item.hasThumbnailRes()) {
                 Glide.with(itemView.getContext())
                         .load(item.getThumbnailResId())
                         .placeholder(R.drawable.ic_book_placeholder)
                         .error(R.drawable.ic_book_placeholder)
                         .into(imageThumbnail);
-            } else if (item.getThumbnailUrl() != null && !item.getThumbnailUrl().isEmpty()) {
+            } else if (item.hasThumbnailUrl()) {
                 Glide.with(itemView.getContext())
                         .load(item.getThumbnailUrl())
                         .placeholder(R.drawable.ic_book_placeholder)
@@ -86,7 +98,11 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
             }
 
             // 클릭 이벤트
-            itemView.setOnClickListener(v -> listener.onItemClick(item));
+            itemView.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onItemClick(item);
+                }
+            });
         }
     }
 }

@@ -103,7 +103,7 @@ public class HomeActivity extends AppCompatActivity {
                 Toast.makeText(this, getString(R.string.label_favorites), Toast.LENGTH_SHORT).show();
             }
         });
-        cardRecent.setOnClickListener(v -> startActivity(new Intent(this, SearchActivity.class)));
+        cardRecent.setOnClickListener(v -> startActivity(new Intent(this, UploadBooksActivity.class)));
 
         BottomNavigationView bottomNavigation = findViewById(R.id.bottomNavigation);
         bottomNavigation.setSelectedItemId(R.id.nav_home);
@@ -152,20 +152,20 @@ public class HomeActivity extends AppCompatActivity {
         for (String review : reviews) {
             String lower = review.toLowerCase();
             if (lower.contains("마법") || lower.contains("호그와트") || lower.contains("마법사")) {
-                addIfNotExists(recs, new SearchResultItem("해리 포터와 비밀의 방", "J.K. 롤링", "https://covers.openlibrary.org/b/isbn/9780439064873-L.jpg"));
-                addIfNotExists(recs, new SearchResultItem("해리 포터와 불의 잔", "J.K. 롤링", "https://covers.openlibrary.org/b/isbn/9780439139601-L.jpg"));
+                addIfNotExists(recs, new SearchResultItem("해리 포터와 비밀의 방", "J.K. 롤링", "https://covers.openlibrary.org/b/isbn/9780439064873-L.jpg","소설"));
+                addIfNotExists(recs, new SearchResultItem("해리 포터와 불의 잔", "J.K. 롤링", "https://covers.openlibrary.org/b/isbn/9780439139601-L.jpg","소설"));
             }
             if (lower.contains("따뜻") || lower.contains("위로") || lower.contains("편지") || lower.contains("잡화점")) {
-                addIfNotExists(recs, new SearchResultItem("나미야 잡화점의 기적", "히가시노 게이고", R.drawable.namiya_cover));
+                addIfNotExists(recs, new SearchResultItem("나미야 잡화점의 기적", "히가시노 게이고", R.drawable.namiya_cover,"소설"));
             }
             if (lower.contains("모험") || lower.contains("판타지") || lower.contains("여정")) {
-                addIfNotExists(recs, new SearchResultItem("반지의 제왕: 반지 원정대", "J.R.R. 톨킨", "https://covers.openlibrary.org/b/isbn/9780547928210-L.jpg"));
+                addIfNotExists(recs, new SearchResultItem("반지의 제왕: 반지 원정대", "J.R.R. 톨킨", "https://covers.openlibrary.org/b/isbn/9780547928210-L.jpg","소설"));
             }
         }
 
         if (recs.isEmpty()) {
-            recs.add(new SearchResultItem("위대한 개츠비", "F. 스콧 피츠제럴드", "https://covers.openlibrary.org/b/isbn/9780743273565-L.jpg"));
-            recs.add(new SearchResultItem("어린 왕자", "앙투안 드 생텍쥐페리", "https://covers.openlibrary.org/b/isbn/9780156012195-L.jpg"));
+            recs.add(new SearchResultItem("위대한 개츠비", "F. 스콧 피츠제럴드", "https://covers.openlibrary.org/b/isbn/9780743273565-L.jpg","소설"));
+            recs.add(new SearchResultItem("어린 왕자", "앙투안 드 생텍쥐페리", "https://covers.openlibrary.org/b/isbn/9780156012195-L.jpg","에세이"));
         }
         return recs;
     }

@@ -30,6 +30,7 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
+            <!-- 책 제목 -->
             <TextView
                 android:id="@+id/textTitle"
                 android:layout_width="wrap_content"
@@ -39,6 +40,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
+            <!-- 저자 -->
             <TextView
                 android:id="@+id/textAuthor"
                 android:layout_width="wrap_content"
@@ -47,6 +49,16 @@
                 android:textColor="@color/textSecondary"
                 android:textSize="14sp"
                 android:layout_marginTop="4dp" />
+
+            <!-- 카테고리 -->
+            <TextView
+                android:id="@+id/textCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="카테고리"
+                android:textColor="@color/textSecondary"
+                android:textSize="12sp"
+                android:layout_marginTop="2dp" />
 
         </LinearLayout>
 
