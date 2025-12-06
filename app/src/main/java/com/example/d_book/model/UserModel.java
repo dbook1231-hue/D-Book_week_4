@@ -7,7 +7,10 @@ public class UserModel {
     public String pushToken;
     public String comment;
 
-
-    public UserModel() {} // ← 기본 생성자 꼭 있어야 함
-
+    // 🔹 통계 필드 추가
+    public long reviewCount;
+    public long likeCount;
+    public long replyCount;
+    public long favoriteCount;
+    public UserModel() {} // 기본 생성자 반드시 필요
 }

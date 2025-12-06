@@ -27,6 +27,7 @@
     <string name="title_activity_mainpage">MainpageActivity</string>
     <string name="title_activity_main2">MainActivity2</string>
     <string name="title_activity_setup">SetupActivity</string>
+    <string name="label_favorite">즐겨찾기</string>
     <string-array name="book_detail_keywords_sample">
         <item>협업</item>
         <item>챌린지</item>

@@ -107,7 +107,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="내 후기 기반 추천"
+                    android:text="후기 기반 추천"
                     android:textColor="@color/textPrimary"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -154,7 +154,7 @@
                             <ImageView
                                 android:layout_width="28dp"
                                 android:layout_height="28dp"
-                                android:tint="@color/primaryBlue"
+                                app:tint="@color/primaryBlue"
                                 android:src="@android:drawable/btn_star_big_on" />
 
                             <TextView
@@ -184,7 +184,7 @@
                             <ImageView
                                 android:layout_width="28dp"
                                 android:layout_height="28dp"
-                                android:tint="@color/primaryBlue"
+                                app:tint="@color/primaryBlue"
                                 android:src="@android:drawable/ic_menu_recent_history" />
 
                             <TextView

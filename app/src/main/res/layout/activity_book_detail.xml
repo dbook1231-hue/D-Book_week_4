@@ -6,6 +6,7 @@
     android:orientation="vertical"
     android:background="@color/backgroundLight">
 
+    <!-- Toolbar -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -25,13 +26,32 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <ImageView
-                android:id="@+id/imageCoverLarge"
+            <!-- 책 커버 + 즐겨찾기 버튼 -->
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:scaleType="centerCrop"
-                android:background="@drawable/bg_book_placeholder" />
+                android:layout_height="200dp">
 
+                <ImageView
+                    android:id="@+id/imageCoverLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_book_placeholder" />
+
+                <!-- 즐겨찾기 버튼 -->
+                <ImageButton
+                    android:id="@+id/buttonFavorite"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="8dp"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/label_favorite"
+                    android:src="@drawable/ic_favorite_border"
+                    app:tint="@color/primaryBlue" />
+            </FrameLayout>
+
+            <!-- 책 제목 / 저자 -->
             <TextView
                 android:id="@+id/textBookTitle"
                 android:layout_width="match_parent"
@@ -51,6 +71,7 @@
                 android:textSize="14sp"
                 android:text="" />
 
+            <!-- 줄거리 -->
             <TextView
                 android:id="@+id/textSectionStoryline"
                 android:layout_width="wrap_content"
@@ -71,6 +92,7 @@
                 android:lineSpacingExtra="4dp"
                 android:text="" />
 
+            <!-- 키워드 -->
             <TextView
                 android:id="@+id/textSectionKeywords"
                 android:layout_width="wrap_content"
@@ -88,6 +110,7 @@
                 android:layout_marginTop="8dp"
                 android:isScrollContainer="false" />
 
+            <!-- 챌린지 -->
             <TextView
                 android:id="@+id/textSectionChallenge"
                 android:layout_width="wrap_content"
@@ -131,6 +154,7 @@
                         android:textSize="13sp"
                         android:lineSpacingExtra="3dp" />
 
+                    <!-- 후기 입력 -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/reviewInputLayout"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -156,6 +180,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- 후기 리스트 -->
             <TextView
                 android:id="@+id/textSectionReviews"
                 android:layout_width="wrap_content"

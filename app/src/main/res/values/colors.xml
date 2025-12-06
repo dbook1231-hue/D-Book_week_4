@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <!-- DBook Blue Theme Colors -->
+    <color name="primaryYellow">#FFD700</color>
     <color name="primaryBlue">#1565C0</color>
     <color name="primaryBlueDark">#0D47A1</color>
     <color name="primaryBlueLight">#42A5F5</color>
