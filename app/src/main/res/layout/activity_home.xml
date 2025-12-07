@@ -200,25 +200,6 @@
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/quickReadCard"
-            android:layout_width="64dp"
-            android:layout_height="96dp"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="16dp"
-            android:clickable="true"
-            android:focusable="true"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="6dp">
-
-            <ImageView
-                android:id="@+id/quickReadCover"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:background="@drawable/bg_book_placeholder" />
-        </com.google.android.material.card.MaterialCardView>
-
     </FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

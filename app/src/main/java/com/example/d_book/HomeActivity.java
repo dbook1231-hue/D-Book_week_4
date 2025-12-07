@@ -1,4 +1,4 @@
-package com.example.d_book;
+﻿package com.example.d_book;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -39,29 +39,26 @@ import java.util.Map;
 public class HomeActivity extends AppCompatActivity {
 
     // ============================
-    // 배너 자동 롤링 관련
-    // ============================
-    // 메인 스레드에서 배너 자동 롤링을 위한 Handler
+    // 諛곕꼫 ?먮룞 濡ㅻ쭅 愿??    // ============================
+    // 硫붿씤 ?ㅻ젅?쒖뿉??諛곕꼫 ?먮룞 濡ㅻ쭅???꾪븳 Handler
     private final android.os.Handler bannerHandler = new android.os.Handler(android.os.Looper.getMainLooper());
 
-    // ViewPager2 참조 변수
-    private ViewPager2 bannerPagerRef;
+    // ViewPager2 李몄“ 蹂??    private ViewPager2 bannerPagerRef;
 
-    // 인기 책 리스트 RecyclerView Adapter
+    // ?멸린 梨?由ъ뒪??RecyclerView Adapter
     private TrendingBookAdapter trendingAdapter;
 
-    // 인기 책 데이터 저장 리스트
-    private final List<TrendingBook> trendingBooks = new ArrayList<>();
+    // ?멸린 梨??곗씠?????由ъ뒪??    private final List<TrendingBook> trendingBooks = new ArrayList<>();
 
-    // 배너 자동 스크롤 Runnable
+    // 諛곕꼫 ?먮룞 ?ㅽ겕濡?Runnable
     private final Runnable bannerRunnable = new Runnable() {
         @Override
         public void run() {
             if (bannerPagerRef != null && bannerPagerRef.getAdapter() != null) {
-                // 현재 배너의 다음 인덱스로 이동
+                // ?꾩옱 諛곕꼫???ㅼ쓬 ?몃뜳?ㅻ줈 ?대룞
                 int next = (bannerPagerRef.getCurrentItem() + 1) % bannerPagerRef.getAdapter().getItemCount();
                 bannerPagerRef.setCurrentItem(next, true);
-                // 5초 후 다시 실행
+                // 5珥????ㅼ떆 ?ㅽ뻾
                 bannerHandler.postDelayed(this, 5000);
             }
         }
@@ -73,65 +70,62 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         // ============================
-        // 상단 툴바 설정
+        // ?곷떒 ?대컮 ?ㅼ젙
         // ============================
         MaterialToolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         // ============================
-        // 검색 기능
+        // 寃??湲곕뒫
         // ============================
         TextInputEditText editSearch = findViewById(R.id.editSearch);
         MaterialButton buttonSearch = findViewById(R.id.buttonSearch);
 
-        // 키보드 검색 버튼 클릭 시
-        editSearch.setOnEditorActionListener((v, a, e) -> {
+        // ?ㅻ낫??寃??踰꾪듉 ?대┃ ??        editSearch.setOnEditorActionListener((v, a, e) -> {
             openSearchWithQuery(v.getText());
             return true;
         });
 
-        // 검색 버튼 클릭 시
-        if (buttonSearch != null)
+        // 寃??踰꾪듉 ?대┃ ??        if (buttonSearch != null)
             buttonSearch.setOnClickListener(v -> openSearchWithQuery(editSearch.getText()));
 
         // ============================
-        // 배너 및 인기 책 초기화
-        // ============================
+        // 諛곕꼫 諛??멸린 梨?珥덇린??        // ============================
         setupBanner();
         setupTrendingBooks();
 
         // ============================
-        // 실시간 추천 책 RecyclerView
+        // ?ㅼ떆媛?異붿쿇 梨?RecyclerView
         // ============================
         RecyclerView recommendationsRecycler = findViewById(R.id.recyclerRecommendations);
         recommendationsRecycler.setLayoutManager(new LinearLayoutManager(this));
         loadRealtimeRecommendations(recommendationsRecycler);
 
         // ============================
-        // 즐겨찾기 버튼 클릭
+        // 利먭꺼李얘린 踰꾪듉 ?대┃
         // ============================
         findViewById(R.id.cardFavorites).setOnClickListener(v -> {
             if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-                Toast.makeText(this, "로그인이 필요합니다", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "濡쒓렇?몄씠 ?꾩슂?⑸땲??, Toast.LENGTH_SHORT).show();
             } else {
                 startActivity(new Intent(this, FavoritesActivity.class));
             }
         });
 
-        // 최근 업로드 책 버튼 클릭
+        // 理쒓렐 ?낅줈??梨?踰꾪듉 ?대┃
         findViewById(R.id.cardRecent).setOnClickListener(v ->
                 startActivity(new Intent(this, UploadBooksActivity.class))
         );
 
         // ============================
-        // 하단 네비게이션 설정
+        // ?섎떒 ?ㅻ퉬寃뚯씠???ㅼ젙
         // ============================
         BottomNavigationView bottomNavigation = findViewById(R.id.bottomNavigation);
         bottomNavigation.setSelectedItemId(R.id.nav_home);
 
         bottomNavigation.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
-            if (id == R.id.nav_home) return true; // 현재 홈이면 아무 동작 없음
+            if (id == R.id.nav_home) return true; // ?꾩옱 ?덉씠硫??꾨Т ?숈옉 ?놁쓬
             if (id == R.id.nav_settings)
                 startActivity(new Intent(this, SettingsActivity.class));
             if (id == R.id.nav_books)
@@ -139,34 +133,29 @@ public class HomeActivity extends AppCompatActivity {
             return false;
         });
 
-        // ============================
-        // QuickRead 드래그 버튼 초기화
-        // ============================
-        setupQuickRead();
-    }
+}
 
     // =====================================================
-    // 배너 관련 메서드
-    // =====================================================
+    // 諛곕꼫 愿??硫붿꽌??    // =====================================================
     private void setupBanner() {
         ViewPager2 bannerPager = findViewById(R.id.bannerPager);
         this.bannerPagerRef = bannerPager;
 
         LinearLayout bannerDots = findViewById(R.id.bannerDots);
 
-        // 배너 데이터 생성
+        // 諛곕꼫 ?곗씠???앹꽦
         List<Banner> bannerData = new ArrayList<>();
-        bannerData.add(new Banner(R.drawable.banner_winter, "따뜻한 한 권으로 채우는 겨울 밤"));
-        bannerData.add(new Banner(R.drawable.banner_magic, "마법 같은 모험이 시작돼요"));
-        bannerData.add(new Banner(R.drawable.banner_letter, "편지처럼 마음을 건네는 이야기"));
+        bannerData.add(new Banner(R.drawable.banner_winter, "?곕쑜????沅뚯쑝濡?梨꾩슦??寃⑥슱 諛?));
+        bannerData.add(new Banner(R.drawable.banner_magic, "留덈쾿 媛숈? 紐⑦뿕???쒖옉?쇱슂"));
+        bannerData.add(new Banner(R.drawable.banner_letter, "?몄?泥섎읆 留덉쓬??嫄대꽕???댁빞湲?));
 
-        // Adapter 설정
+        // Adapter ?ㅼ젙
         bannerPager.setAdapter(new BannerAdapter(bannerData));
 
-        // 배너 점(dot) 표시
+        // 諛곕꼫 ??dot) ?쒖떆
         setupDots(bannerDots, bannerData.size());
 
-        // 배너 스크롤 시 점 업데이트
+        // 諛곕꼫 ?ㅽ겕濡??????낅뜲?댄듃
         bannerPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
@@ -174,39 +163,37 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        // 초기 점 상태 업데이트
+        // 珥덇린 ???곹깭 ?낅뜲?댄듃
         updateDots(bannerDots, 0);
 
-        // 배너 자동 스크롤 시작
+        // 諛곕꼫 ?먮룞 ?ㅽ겕濡??쒖옉
         bannerHandler.postDelayed(bannerRunnable, 5000);
     }
 
     // =====================================================
-    // 인기 책 관련 메서드
-    // =====================================================
+    // ?멸린 梨?愿??硫붿꽌??    // =====================================================
     private void setupTrendingBooks() {
         RecyclerView trendingRecycler = findViewById(R.id.recyclerTrending);
         trendingRecycler.setLayoutManager(new LinearLayoutManager(this));
 
-        // Adapter 생성 및 클릭 이벤트 정의
+        // Adapter ?앹꽦 諛??대┃ ?대깽???뺤쓽
         trendingAdapter = new TrendingBookAdapter(this, trendingBooks,
                 item -> {
-                    incrementVisitCount(item); // 클릭 시 방문 수 증가
-                    openSearchWithQuery(item.getTitle()); // 검색 화면으로 이동
+                    incrementVisitCount(item); // ?대┃ ??諛⑸Ц ??利앷?
+                    openSearchWithQuery(item.getTitle()); // 寃???붾㈃?쇰줈 ?대룞
                 });
 
         trendingRecycler.setAdapter(trendingAdapter);
 
-        // Firestore에서 인기 책 로드
+        // Firestore?먯꽌 ?멸린 梨?濡쒕뱶
         loadTrendingBooksFromFirestore();
     }
 
     private void loadTrendingBooksFromFirestore() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("books")
-                .orderBy("visitCount", Query.Direction.DESCENDING) // 방문수 기준 내림차순
-                .limit(10) // 상위 10권
-                .addSnapshotListener((snapshots, e) -> {
+                .orderBy("visitCount", Query.Direction.DESCENDING) // 諛⑸Ц??湲곗? ?대┝李⑥닚
+                .limit(10) // ?곸쐞 10沅?                .addSnapshotListener((snapshots, e) -> {
                     if (e != null || snapshots == null) return;
 
                     trendingBooks.clear();
@@ -231,7 +218,7 @@ public class HomeActivity extends AppCompatActivity {
                 });
     }
 
-    // 인기 책 클릭 시 방문 수 증가
+    // ?멸린 梨??대┃ ??諛⑸Ц ??利앷?
     private void incrementVisitCount(TrendingBook item) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("books")
@@ -248,11 +235,11 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     // =====================================================
-    // 실시간 후기 기반 추천 (상위 3권)
+    // ?ㅼ떆媛??꾧린 湲곕컲 異붿쿇 (?곸쐞 3沅?
     // =====================================================
     private static class BookScore {
         String title;
-        double score; // 추천 점수
+        double score; // 異붿쿇 ?먯닔
         String category;
         String description;
         List<String> keywords = new ArrayList<>();
@@ -264,7 +251,7 @@ public class HomeActivity extends AppCompatActivity {
     private void loadRealtimeRecommendations(RecyclerView recyclerView) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        // 책 컬렉션을 실시간 감시
+        // 梨?而щ젆?섏쓣 ?ㅼ떆媛?媛먯떆
         db.collection("books").addSnapshotListener((bookSnapshots, e) -> {
             if (e != null || bookSnapshots == null) return;
 
@@ -283,7 +270,7 @@ public class HomeActivity extends AppCompatActivity {
 
                 scoreList.add(bs);
 
-                // 각 책의 리뷰 실시간 반영
+                // 媛?梨낆쓽 由щ럭 ?ㅼ떆媛?諛섏쁺
                 db.collection("bookReviews")
                         .document(title)
                         .collection("items")
@@ -300,17 +287,17 @@ public class HomeActivity extends AppCompatActivity {
                                 int likeCnt = likes != null ? likes.size() : 0;
                                 int dislikeCnt = dislikes != null ? dislikes.size() : 0;
 
-                                // 추천 점수 계산: 좋아요*2 - 싫어요*1
+                                // 異붿쿇 ?먯닔 怨꾩궛: 醫뗭븘??2 - ?レ뼱??1
                                 likeScore += (likeCnt * 2.0) - (dislikeCnt * 1.0);
 
                                 String parent = r.getString("parentReviewId");
-                                if (parent != null && !parent.isEmpty()) replyCount++; // 답글 수 추가
+                                if (parent != null && !parent.isEmpty()) replyCount++; // ?듦? ??異붽?
                             }
 
-                            // 최종 추천 점수
+                            // 理쒖쥌 異붿쿇 ?먯닔
                             bs.score = likeScore + (replyCount * 1.5) + Math.log10(bs.visitCount + 10);
 
-                            // TF-IDF 키워드 가중치
+                            // TF-IDF ?ㅼ썙??媛以묒튂
                             Map<String, Integer> dfMap = new HashMap<>();
                             for (BookScore s : scoreList) {
                                 if (s.keywords != null) {
@@ -324,10 +311,10 @@ public class HomeActivity extends AppCompatActivity {
                             for (String kwd : bs.keywords) {
                                 int df = dfMap.getOrDefault(kwd, 1);
                                 double idf = Math.log((double) totalDocs / df);
-                                bs.score += idf * 1.3; // TF-IDF 가중치
+                                bs.score += idf * 1.3; // TF-IDF 媛以묒튂
                             }
 
-                            // 추천 UI 갱신
+                            // 異붿쿇 UI 媛깆떊
                             updateRecommendationUISafe(scoreList, recyclerView, db);
                         });
             }
@@ -335,17 +322,15 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void updateRecommendationUISafe(List<BookScore> scoreList, RecyclerView recyclerView, FirebaseFirestore db) {
-        // 추천 점수 기준 내림차순 정렬
+        // 異붿쿇 ?먯닔 湲곗? ?대┝李⑥닚 ?뺣젹
         scoreList.sort((a, b) -> Double.compare(b.score, a.score));
 
-        // 상위 3권만 가져오기
-        List<BookScore> topList = new ArrayList<>(scoreList.size() > 3 ? scoreList.subList(0, 3) : scoreList);
+        // ?곸쐞 3沅뚮쭔 媛?몄삤湲?        List<BookScore> topList = new ArrayList<>(scoreList.size() > 3 ? scoreList.subList(0, 3) : scoreList);
 
         List<SearchResultItem> results = new ArrayList<>();
         final int[] loadedCount = {0};
 
-        // Firestore에서 상세 정보 가져오기
-        for (BookScore s : topList) {
+        // Firestore?먯꽌 ?곸꽭 ?뺣낫 媛?몄삤湲?        for (BookScore s : topList) {
             db.collection("books")
                     .whereEqualTo("title", s.title)
                     .limit(1)
@@ -365,7 +350,7 @@ public class HomeActivity extends AppCompatActivity {
                         }
                         loadedCount[0]++;
                         if (loadedCount[0] == topList.size()) {
-                            // Adapter 설정
+                            // Adapter ?ㅼ젙
                             SearchResultAdapter adapter = new SearchResultAdapter(
                                     this,
                                     results,
@@ -378,7 +363,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     // =====================================================
-    // 공통 기능
+    // 怨듯넻 湲곕뒫
     // =====================================================
     private void openSearchWithQuery(CharSequence searchText) {
         Intent i = new Intent(this, SearchActivity.class);
@@ -387,7 +372,7 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    // 배너 점(dot) 설정
+    // 諛곕꼫 ??dot) ?ㅼ젙
     private void setupDots(LinearLayout container, int count) {
         container.removeAllViews();
         for (int i = 0; i < count; i++) {
@@ -416,7 +401,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        bannerHandler.removeCallbacks(bannerRunnable); // 메모리 누수 방지
+        bannerHandler.removeCallbacks(bannerRunnable); // 硫붾え由??꾩닔 諛⑹?
     }
 
     @Override
@@ -435,64 +420,4 @@ public class HomeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // =====================================================
-    // QuickRead 드래그 기능
-    // =====================================================
-    private void setupQuickRead() {
-        MaterialCardView quickCard = findViewById(R.id.quickReadCard);
-        if (quickCard == null) return;
-
-        final View drag = quickCard;
-        final float[] dX = new float[1];
-        final float[] dY = new float[1];
-        final int[] lastAction = {0};
-
-        drag.setOnTouchListener((v, event) -> {
-            switch (event.getActionMasked()) {
-
-                case android.view.MotionEvent.ACTION_DOWN:
-                    dX[0] = v.getX() - event.getRawX();
-                    dY[0] = v.getY() - event.getRawY();
-                    lastAction[0] = android.view.MotionEvent.ACTION_DOWN;
-                    return true;
-
-                case android.view.MotionEvent.ACTION_MOVE:
-                    v.setX(event.getRawX() + dX[0]);
-                    v.setY(event.getRawY() + dY[0]);
-                    lastAction[0] = android.view.MotionEvent.ACTION_MOVE;
-                    return true;
-
-                case android.view.MotionEvent.ACTION_UP:
-                    // 클릭 시 마지막 책 이어읽기
-                    if (lastAction[0] == android.view.MotionEvent.ACTION_DOWN) {
-                        Toast.makeText(this, "마지막 책 이어읽기", Toast.LENGTH_SHORT).show();
-                    }
-                    snapQuickButtonToEdge(v); // 드래그 후 화면 끝으로 이동
-                    return true;
-            }
-            return false;
-        });
     }
-
-    private void snapQuickButtonToEdge(View v) {
-        View parent = findViewById(R.id.homeContentContainer);
-        if (parent == null) return;
-
-        int pw = parent.getWidth();
-        int ph = parent.getHeight();
-        int vw = v.getWidth();
-        int vh = v.getHeight();
-
-        // X 좌표 스냅
-        float targetX = (v.getX() + vw / 2f > pw / 2f) ? pw - vw - 16f : 16f;
-
-        // Y 좌표 제한
-        float targetY = v.getY();
-        if (targetY < 16f) targetY = 16f;
-        if (targetY > ph - vh - 16f)
-            targetY = ph - vh - 16f;
-
-        // 애니메이션 이동
-        v.animate().x(targetX).y(targetY).setDuration(180).start();
-    }
-}
