@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brand colors keep identity in dark mode -->
+    <color name="primaryYellow">#FFD700</color>
+    <color name="primaryBlue">#1565C0</color>
+    <color name="primaryBlueDark">#0D47A1</color>
+    <color name="primaryBlueLight">#42A5F5</color>
+
+    <!-- Text -->
+    <color name="textPrimary">#FFFFFFFF</color>
+    <color name="textSecondary">#B0BEC5</color>
+    <color name="textPrimaryDark">#FFFFFFFF</color>
+    <color name="text_black">#FFFFFFFF</color>
+    <color name="text_hint_black">#B0BEC5</color>
+
+    <!-- Backgrounds -->
+    <color name="backgroundLight">#121212</color>
+    <color name="backgroundColor">#121212</color>
+    <color name="signbackgroundColor">#1A1A1A</color>
+    <color name="backgroundDark">#121212</color>
+    <color name="darkBackground">#121212</color>
+    <color name="categoryColor">#2A2A2A</color>
+    <color name="categoryLight">#2A2A2A</color>
+    <color name="categoryDark">#2A2A2A</color>
+    <color name="darkcategoryColor">#2A2A2A</color>
+    <color name="loginBackground">#121212</color>
+
+    <!-- Controls / strokes / hints -->
+    <color name="inputStrokeColor">#888888</color>
+    <color name="hintColor">#B0B0B0</color>
+
+    <!-- Buttons and accents (kept for contrast on dark bg) -->
+    <color name="loginButtonColor">#1565C0</color>
+    <color name="loginSignupTextColor">#42A5F5</color>
+    <color name="signcolorPrimary">#1565C0</color>
+    <color name="signcolorAccent">#42A5F5</color>
+    <color name="mainpagecolor">#44BBA4</color>
+    <color name="strokeColor">#44BBA4</color>
+
+    <!-- Overlays -->
+    <color name="overlayFaint">#1AFFFFFF</color>
+    <color name="overlayMedium">#66FFFFFF</color>
+    <color name="readerOverlay">#AA000000</color>
+</resources>

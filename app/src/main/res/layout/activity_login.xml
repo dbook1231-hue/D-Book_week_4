@@ -36,7 +36,7 @@
             android:textSize="16sp"
             android:inputType="textEmailAddress"
             android:background="@drawable/bg_input"
-            android:textColor="@android:color/black"
+            android:textColor="@color/textPrimary"
             android:textColorHint="@color/hintColor"/>
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -58,7 +58,7 @@
             android:textSize="16sp"
             android:inputType="textPassword"
             android:background="@drawable/bg_input"
-            android:textColor="@android:color/black"
+            android:textColor="@color/textPrimary"
             android:textColorHint="@color/hintColor"/>
     </com.google.android.material.textfield.TextInputLayout>
 

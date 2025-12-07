@@ -44,7 +44,11 @@
     <color name="backgroundDark">#121212</color>
     <color name="darkBackground">#121212</color>
     <color name="darkcategoryColor">#2A2A2A</color>
-    categoryDark
     <color name="categoryLight">#BDBDBD</color>
     <color name="categoryDark">#2A2A2A</color>
+
+    <!-- Overlays -->
+    <color name="overlayFaint">#0D000000</color>
+    <color name="overlayMedium">#66000000</color>
+    <color name="readerOverlay">#AAFFFFFF</color>
 </resources>
