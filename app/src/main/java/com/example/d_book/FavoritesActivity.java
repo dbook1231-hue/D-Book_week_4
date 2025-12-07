@@ -79,13 +79,18 @@ public class FavoritesActivity extends AppCompatActivity {
                                 String title = dc.getDocument().getString("title");
                                 String author = dc.getDocument().getString("author");
                                 String category = dc.getDocument().getString("category");
-                                String thumbnail = dc.getDocument().getString("thumbnail");
+                                String rawThumb = dc.getDocument().getString("thumbnail");
+                                String displayThumb = ThumbnailHelper.display(rawThumb, title);
+                                String storageThumb = ThumbnailHelper.storage(rawThumb, title);
+                                if (ThumbnailHelper.isNullOrEmpty(rawThumb) && !ThumbnailHelper.isNullOrEmpty(storageThumb)) {
+                                    dc.getDocument().getReference().update("thumbnail", storageThumb);
+                                }
 
                                 // 널 대비 기본값
                                 if (title == null) title = "제목 없음";
                                 if (author == null) author = "작가 정보 없음";
                                 if (category == null) category = "카테고리 없음";
-                                if (thumbnail == null) thumbnail = "";
+                                if (displayThumb == null) displayThumb = "";
 
                                 // 중복 체크 (bookId 기준)
                                 boolean exists = false;
@@ -93,7 +98,7 @@ public class FavoritesActivity extends AppCompatActivity {
                                     if (it.getBookId().equals(docId)) { exists = true; break; }
                                 }
                                 if (!exists) {
-                                    favoriteBooks.add(new FavoriteBookItem(docId, title, author, category, thumbnail));
+                                    favoriteBooks.add(new FavoriteBookItem(docId, title, author, category, displayThumb));
                                     adapter.notifyItemInserted(favoriteBooks.size() - 1);
                                 }
                                 break;
@@ -105,14 +110,19 @@ public class FavoritesActivity extends AppCompatActivity {
                                         String mTitle = dc.getDocument().getString("title");
                                         String mAuthor = dc.getDocument().getString("author");
                                         String mCategory = dc.getDocument().getString("category");
-                                        String mThumbnail = dc.getDocument().getString("thumbnail");
+                                        String rawMThumb = dc.getDocument().getString("thumbnail");
+                                        String mDisplayThumb = ThumbnailHelper.display(rawMThumb, mTitle);
+                                        String mStorageThumb = ThumbnailHelper.storage(rawMThumb, mTitle);
+                                        if (ThumbnailHelper.isNullOrEmpty(rawMThumb) && !ThumbnailHelper.isNullOrEmpty(mStorageThumb)) {
+                                            dc.getDocument().getReference().update("thumbnail", mStorageThumb);
+                                        }
 
                                         if (mTitle == null) mTitle = favoriteBooks.get(i).getTitle();
                                         if (mAuthor == null) mAuthor = favoriteBooks.get(i).getAuthor();
                                         if (mCategory == null) mCategory = favoriteBooks.get(i).getCategory();
-                                        if (mThumbnail == null) mThumbnail = favoriteBooks.get(i).getThumbnail();
+                                        if (mDisplayThumb == null) mDisplayThumb = favoriteBooks.get(i).getThumbnail();
 
-                                        favoriteBooks.set(i, new FavoriteBookItem(docId, mTitle, mAuthor, mCategory, mThumbnail));
+                                        favoriteBooks.set(i, new FavoriteBookItem(docId, mTitle, mAuthor, mCategory, mDisplayThumb));
                                         adapter.notifyItemChanged(i);
                                         break;
                                     }

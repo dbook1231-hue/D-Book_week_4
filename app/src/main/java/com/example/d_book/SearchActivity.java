@@ -114,11 +114,16 @@ public class SearchActivity extends AppCompatActivity {
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                         String title = doc.getString("title");
                         String author = doc.getString("author");
-                        String thumbnail = doc.getString("thumbnail");
+                        String rawThumb = doc.getString("thumbnail");
+                        String displayThumb = ThumbnailHelper.display(rawThumb, title);
+                        String storageThumb = ThumbnailHelper.storage(rawThumb, title);
+                        if (ThumbnailHelper.isNullOrEmpty(rawThumb) && !ThumbnailHelper.isNullOrEmpty(storageThumb)) {
+                            doc.getReference().update("thumbnail", storageThumb);
+                        }
                         String category = doc.getString("category");
                         Long visitCount = doc.getLong("visitCount"); // optional
 
-                        allBooks.add(new SearchResultItem(title, author, thumbnail, category, visitCount != null ? visitCount.intValue() : 0));
+                        allBooks.add(new SearchResultItem(title, author, displayThumb, category, visitCount != null ? visitCount.intValue() : 0));
                     }
 
                     filterBooks(editSearch.getText().toString(), selectedCategory);

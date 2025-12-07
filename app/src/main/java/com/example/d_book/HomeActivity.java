@@ -211,11 +211,19 @@ public class HomeActivity extends AppCompatActivity {
 
                     trendingBooks.clear();
                     for (DocumentSnapshot doc : snapshots.getDocuments()) {
+                        String title = doc.getString("title");
+                        String author = doc.getString("author");
+                        String rawThumb = doc.getString("thumbnail");
+                        String displayThumb = ThumbnailHelper.display(rawThumb, title);
+                        String storageThumb = ThumbnailHelper.storage(rawThumb, title);
+                        if (ThumbnailHelper.isNullOrEmpty(rawThumb) && !ThumbnailHelper.isNullOrEmpty(storageThumb)) {
+                            doc.getReference().update("thumbnail", storageThumb);
+                        }
                         TrendingBook book = new TrendingBook(
-                                doc.getString("title"),
-                                doc.getString("author"),
+                                title,
+                                author,
                                 doc.getLong("visitCount") != null ? doc.getLong("visitCount").intValue() : 0,
-                                doc.getString("thumbnail")
+                                displayThumb
                         );
                         trendingBooks.add(book);
                     }
@@ -345,10 +353,12 @@ public class HomeActivity extends AppCompatActivity {
                     .addOnSuccessListener(snapshot -> {
                         if (!snapshot.isEmpty()) {
                             DocumentSnapshot doc = snapshot.getDocuments().get(0);
+                            String title = doc.getString("title");
+                            String rawThumb = doc.getString("thumbnail");
                             results.add(new SearchResultItem(
-                                    doc.getString("title"),
+                                    title,
                                     doc.getString("author"),
-                                    doc.getString("thumbnail"),
+                                    ThumbnailHelper.display(rawThumb, title),
                                     doc.getString("category")
                             ));
                         }
