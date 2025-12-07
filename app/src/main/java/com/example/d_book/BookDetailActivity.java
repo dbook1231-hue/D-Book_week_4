@@ -39,7 +39,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class BookDetailActivity extends AppCompatActivity {
 
@@ -371,16 +370,17 @@ public class BookDetailActivity extends AppCompatActivity {
                 .addOnSuccessListener(querySnapshot -> textReplyCount.setText(String.valueOf(querySnapshot != null ? querySnapshot.size() : 0)));
     }
 
-    /** 하위 답글 포함 삭제 */
+    /** 하위 답글 포함 삭제 + 다른 사용자 통계 반영 */
+    /** 하위 답글 포함 삭제 + 다른 사용자 통계 반영 */
     private void deleteReviewRecursive(DocumentReference reviewRef) {
         reviewRef.get().addOnSuccessListener(docSnapshot -> {
             if (!docSnapshot.exists()) return;
 
-            String userId = docSnapshot.getString("userId");
+            String reviewUserId = docSnapshot.getString("userId");
             boolean isMainReview = docSnapshot.getString("parentReviewId") == null;
             Map<String, Boolean> likes = (Map<String, Boolean>) docSnapshot.get("likes");
 
-            // 하위 답글 삭제 재귀
+            // 1️⃣ 하위 답글 삭제 재귀
             firestore.collection("bookReviews")
                     .document(bookTitle)
                     .collection("items")
@@ -393,20 +393,23 @@ public class BookDetailActivity extends AppCompatActivity {
                             }
                         }
 
-                        // 본문 삭제 전 사용자 카운트 조정
-                        if (currentUser != null) {
-                            String currentUid = currentUser.getUid();
-
-                            if (likes != null && likes.containsKey(currentUid)) decrementUserCount("likeCount");
-                            if (!isMainReview && userId.equals(currentUid)) decrementUserCount("replyCount");
-                            if (isMainReview && userId.equals(currentUid)) decrementUserCount("reviewCount");
+                        // 2️⃣ 좋아요 누른 모든 사용자 카운트 감소
+                        if (likes != null) {
+                            for (String likerId : likes.keySet()) {
+                                decrementUserCount(likerId, "likeCount");
+                            }
                         }
 
-                        // 문서 삭제
+                        // 3️⃣ 작성자 통계 감소
+                        if (isMainReview) decrementUserCount(reviewUserId, "reviewCount");
+                        else decrementUserCount(reviewUserId, "replyCount");
+
+                        // 4️⃣ 문서 삭제
                         reviewRef.delete();
                     });
         });
     }
+
 
     private void startChildReplyListener(LinearLayout container, String parentId, int depth, TextView textReplyCount) {
         firestore.collection("bookReviews")
@@ -532,12 +535,11 @@ public class BookDetailActivity extends AppCompatActivity {
 
     /** 사용자 카운트 증가 */
     private void incrementUserCount(String field) {
-        incrementUserCount(field, 1);
+        incrementUserCount(currentUser.getUid(), field, 1);
     }
 
-    private void incrementUserCount(String field, int amount) {
-        if (currentUser == null) return;
-        DatabaseReference ref = usersRef.child(currentUser.getUid()).child(field);
+    private void incrementUserCount(String userId, String field, int amount) {
+        DatabaseReference ref = usersRef.child(userId).child(field);
         ref.runTransaction(new Transaction.Handler() {
             @Override
             public Transaction.Result doTransaction(MutableData currentData) {
@@ -553,12 +555,15 @@ public class BookDetailActivity extends AppCompatActivity {
 
     /** 사용자 카운트 감소 */
     private void decrementUserCount(String field) {
-        decrementUserCount(field, 1);
+        decrementUserCount(currentUser.getUid(), field, 1);
     }
 
-    private void decrementUserCount(String field, int amount) {
-        if (currentUser == null) return;
-        DatabaseReference ref = usersRef.child(currentUser.getUid()).child(field);
+    private void decrementUserCount(String userId, String field) {
+        decrementUserCount(userId, field, 1);
+    }
+
+    private void decrementUserCount(String userId, String field, int amount) {
+        DatabaseReference ref = usersRef.child(userId).child(field);
         ref.runTransaction(new Transaction.Handler() {
             @Override
             public Transaction.Result doTransaction(MutableData currentData) {
