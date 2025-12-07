@@ -11,8 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.example.d_book.item.FavoriteBookItem;
 import com.example.d_book.R;
+import com.example.d_book.ThumbnailHelper;
+import com.example.d_book.item.FavoriteBookItem;
 
 import java.util.List;
 
@@ -42,24 +43,28 @@ public class FavoriteBookAdapter extends RecyclerView.Adapter<FavoriteBookAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         FavoriteBookItem item = items.get(position);
 
-        // 텍스트 세팅
+        // 텍스트 바인딩
         holder.textTitle.setText(item.getTitle() != null ? item.getTitle() : "제목 없음");
-        holder.textAuthor.setText(item.getAuthor() != null ? item.getAuthor() : "저자 없음");
+        holder.textAuthor.setText(item.getAuthor() != null ? item.getAuthor() : "작가 정보 없음");
         holder.textCategory.setText(item.getCategory() != null ? item.getCategory() : "카테고리 없음");
 
-        // 썸네일 세팅
-        if (item.getThumbnail() != null && !item.getThumbnail().isEmpty()) {
+        // 썸네일 바인딩 (데미안 로컬 폴백 지원)
+        int fallbackRes = ThumbnailHelper.fallbackRes(item.getTitle(), item.getAuthor());
+        // 데미안은 무조건 로컬 표지
+        if (fallbackRes != 0) {
+            holder.imageThumbnail.setImageResource(fallbackRes);
+        } else if (item.getThumbnail() != null && !item.getThumbnail().isEmpty()) {
             Glide.with(holder.imageThumbnail.getContext())
                     .load(item.getThumbnail())
                     .placeholder(R.drawable.ic_book_placeholder)
-                    .error(R.drawable.ic_book_placeholder) // 로딩 실패 시 기본 이미지
-                    .diskCacheStrategy(DiskCacheStrategy.ALL) // 캐시 전략
+                    .error(R.drawable.ic_book_placeholder)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(holder.imageThumbnail);
         } else {
             holder.imageThumbnail.setImageResource(R.drawable.ic_book_placeholder);
         }
 
-        // 아이템 클릭
+        // 클릭 이벤트
         holder.itemView.setOnClickListener(v -> listener.onClick(item));
     }
 

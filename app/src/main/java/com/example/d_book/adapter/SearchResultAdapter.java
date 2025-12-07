@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.d_book.R;
+import com.example.d_book.ThumbnailHelper;
 import com.example.d_book.item.SearchResultItem;
 
 import androidx.annotation.NonNull;
@@ -22,7 +23,6 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     private final List<SearchResultItem> searchResults;
     private final OnItemClickListener listener;
 
-    // 클릭 이벤트 인터페이스
     public interface OnItemClickListener {
         void onItemClick(SearchResultItem item);
     }
@@ -63,16 +63,15 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
             imageThumbnail = itemView.findViewById(R.id.imageThumbnail);
             textTitle = itemView.findViewById(R.id.textTitle);
             textAuthor = itemView.findViewById(R.id.textAuthor);
-            textCategory = itemView.findViewById(R.id.textCategory); // item_search_result.xml에 반드시 존재
+            textCategory = itemView.findViewById(R.id.textCategory);
         }
 
         public void bind(final SearchResultItem item, final OnItemClickListener listener) {
             if (item == null) return;
 
             textTitle.setText(item.getTitle() != null ? item.getTitle() : "제목 없음");
-            textAuthor.setText(item.getAuthor() != null ? item.getAuthor() : "저자 없음");
+            textAuthor.setText(item.getAuthor() != null ? item.getAuthor() : "작가 정보 없음");
 
-            // 카테고리 표시
             if (item.getCategory() != null && !item.getCategory().isEmpty()) {
                 textCategory.setText(item.getCategory());
                 textCategory.setVisibility(View.VISIBLE);
@@ -80,8 +79,12 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
                 textCategory.setVisibility(View.GONE);
             }
 
-            // 이미지 로딩: 로컬 > URL > 기본
-            if (item.hasThumbnailRes()) {
+            int fallbackRes = ThumbnailHelper.fallbackRes(item.getTitle(), item.getAuthor());
+
+            // 데미안은 무조건 로컬 표지 사용
+            if (fallbackRes != 0) {
+                imageThumbnail.setImageResource(fallbackRes);
+            } else if (item.hasThumbnailRes()) {
                 Glide.with(itemView.getContext())
                         .load(item.getThumbnailResId())
                         .placeholder(R.drawable.ic_book_placeholder)
@@ -97,7 +100,6 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
                 imageThumbnail.setImageResource(R.drawable.ic_book_placeholder);
             }
 
-            // 클릭 이벤트
             itemView.setOnClickListener(v -> {
                 if (listener != null) {
                     listener.onItemClick(item);

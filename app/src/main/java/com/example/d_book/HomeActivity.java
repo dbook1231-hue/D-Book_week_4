@@ -214,8 +214,8 @@ public class HomeActivity extends AppCompatActivity {
                         String title = doc.getString("title");
                         String author = doc.getString("author");
                         String rawThumb = doc.getString("thumbnail");
-                        String displayThumb = ThumbnailHelper.display(rawThumb, title);
-                        String storageThumb = ThumbnailHelper.storage(rawThumb, title);
+                        String displayThumb = ThumbnailHelper.display(rawThumb, title, author);
+                        String storageThumb = ThumbnailHelper.storage(rawThumb, title, author);
                         if (ThumbnailHelper.isNullOrEmpty(rawThumb) && !ThumbnailHelper.isNullOrEmpty(storageThumb)) {
                             doc.getReference().update("thumbnail", storageThumb);
                         }
@@ -355,10 +355,11 @@ public class HomeActivity extends AppCompatActivity {
                             DocumentSnapshot doc = snapshot.getDocuments().get(0);
                             String title = doc.getString("title");
                             String rawThumb = doc.getString("thumbnail");
+                            String author = doc.getString("author");
                             results.add(new SearchResultItem(
                                     title,
-                                    doc.getString("author"),
-                                    ThumbnailHelper.display(rawThumb, title),
+                                    author,
+                                    ThumbnailHelper.display(rawThumb, title, author),
                                     doc.getString("category")
                             ));
                         }

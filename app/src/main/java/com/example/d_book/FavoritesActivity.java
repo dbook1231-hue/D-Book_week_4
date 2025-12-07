@@ -80,8 +80,8 @@ public class FavoritesActivity extends AppCompatActivity {
                                 String author = dc.getDocument().getString("author");
                                 String category = dc.getDocument().getString("category");
                                 String rawThumb = dc.getDocument().getString("thumbnail");
-                                String displayThumb = ThumbnailHelper.display(rawThumb, title);
-                                String storageThumb = ThumbnailHelper.storage(rawThumb, title);
+                                String displayThumb = ThumbnailHelper.display(rawThumb, title, author);
+                                String storageThumb = ThumbnailHelper.storage(rawThumb, title, author);
                                 if (ThumbnailHelper.isNullOrEmpty(rawThumb) && !ThumbnailHelper.isNullOrEmpty(storageThumb)) {
                                     dc.getDocument().getReference().update("thumbnail", storageThumb);
                                 }
@@ -111,8 +111,8 @@ public class FavoritesActivity extends AppCompatActivity {
                                         String mAuthor = dc.getDocument().getString("author");
                                         String mCategory = dc.getDocument().getString("category");
                                         String rawMThumb = dc.getDocument().getString("thumbnail");
-                                        String mDisplayThumb = ThumbnailHelper.display(rawMThumb, mTitle);
-                                        String mStorageThumb = ThumbnailHelper.storage(rawMThumb, mTitle);
+                                        String mDisplayThumb = ThumbnailHelper.display(rawMThumb, mTitle, mAuthor);
+                                        String mStorageThumb = ThumbnailHelper.storage(rawMThumb, mTitle, mAuthor);
                                         if (ThumbnailHelper.isNullOrEmpty(rawMThumb) && !ThumbnailHelper.isNullOrEmpty(mStorageThumb)) {
                                             dc.getDocument().getReference().update("thumbnail", mStorageThumb);
                                         }

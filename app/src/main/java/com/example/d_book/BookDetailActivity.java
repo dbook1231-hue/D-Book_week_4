@@ -92,7 +92,7 @@ public class BookDetailActivity extends AppCompatActivity {
         ImageView imageCover = findViewById(R.id.imageCoverLarge);
         buttonFavorite = findViewById(R.id.buttonFavorite);
 
-        // Intent에서 데이터 가져오기
+        // Intent로 데이터 가져오기
         String title = getIntent().getStringExtra("title");
         String author = getIntent().getStringExtra("author");
         String thumbnail = getIntent().getStringExtra("thumbnail");
@@ -100,9 +100,16 @@ public class BookDetailActivity extends AppCompatActivity {
 
         if (title != null) textTitle.setText(title);
         if (author != null) textAuthor.setText(author);
-        if (thumbnail != null && !thumbnail.isEmpty()) {
+
+        // 썸네일 폴백 적용
+        int fallbackRes = ThumbnailHelper.fallbackRes(title, author);
+        String displayThumb = ThumbnailHelper.display(thumbnail, title, author);
+
+        if (fallbackRes != 0) {
+            imageCover.setImageResource(fallbackRes);
+        } else if (!ThumbnailHelper.isNullOrEmpty(displayThumb)) {
             Glide.with(this)
-                    .load(thumbnail)
+                    .load(displayThumb)
                     .placeholder(R.drawable.ic_book_placeholder)
                     .error(R.drawable.ic_book_placeholder)
                     .into(imageCover);
@@ -119,7 +126,7 @@ public class BookDetailActivity extends AppCompatActivity {
             else Toast.makeText(this, "Please sign in to use favorites", Toast.LENGTH_SHORT).show();
         });
 
-        // 상세 데이터 가져오기
+        // 더미 데이터 가져오기
         detailData = getDetailData(title);
         textSummary.setText(detailData.summary);
 
@@ -188,7 +195,7 @@ public class BookDetailActivity extends AppCompatActivity {
             data.put("addedAt", FieldValue.serverTimestamp());
             data.put("title", bookTitle);
             data.put("author", author);
-            data.put("thumbnail", thumbnail);
+            data.put("thumbnail", ThumbnailHelper.storage(thumbnail, bookTitle, author));
             data.put("category", category);
 
             favRef.set(data).addOnSuccessListener(aVoid -> {
@@ -269,7 +276,7 @@ public class BookDetailActivity extends AppCompatActivity {
         container.addView(reviewItem);
     }
 
-    /** 답글 항목 추가 */
+    /** 대댓글 추가 */
     private void addChildReply(LinearLayout container, DocumentSnapshot doc, int depth) {
         View replyItem = getLayoutInflater().inflate(R.layout.item_review_preview, container, false);
         replyItem.setTag(doc.getId());
@@ -277,7 +284,7 @@ public class BookDetailActivity extends AppCompatActivity {
         container.addView(replyItem);
     }
 
-    /** 리뷰/답글 바인딩 */
+    /** 리뷰/댓글 바인딩 */
     private void bindReviewItem(View itemView, DocumentSnapshot doc, int depth) {
         TextView textReviewer = itemView.findViewById(R.id.textReviewerName);
         TextView textReviewBody = itemView.findViewById(R.id.textReviewBody);
@@ -361,7 +368,7 @@ public class BookDetailActivity extends AppCompatActivity {
             itemView.setLayoutParams(params);
         }
 
-        // 답글 카운트 업데이트
+        // 댓글 카운트 업데이트
         firestore.collection("bookReviews")
                 .document(bookTitle)
                 .collection("items")
@@ -370,8 +377,8 @@ public class BookDetailActivity extends AppCompatActivity {
                 .addOnSuccessListener(querySnapshot -> textReplyCount.setText(String.valueOf(querySnapshot != null ? querySnapshot.size() : 0)));
     }
 
-    /** 하위 답글 포함 삭제 + 다른 사용자 통계 반영 */
-    /** 하위 답글 포함 삭제 + 다른 사용자 통계 반영 */
+    /** 상위 댓글 포함 삭제 + 작성/좋아요 계정 반영 */
+    /** 상위 댓글 포함 삭제 + 작성/좋아요 계정 반영 */
     private void deleteReviewRecursive(DocumentReference reviewRef) {
         reviewRef.get().addOnSuccessListener(docSnapshot -> {
             if (!docSnapshot.exists()) return;
@@ -380,7 +387,7 @@ public class BookDetailActivity extends AppCompatActivity {
             boolean isMainReview = docSnapshot.getString("parentReviewId") == null;
             Map<String, Boolean> likes = (Map<String, Boolean>) docSnapshot.get("likes");
 
-            // 1️⃣ 하위 답글 삭제 재귀
+            // 1️⃣ 하위 댓글 삭제 재귀
             firestore.collection("bookReviews")
                     .document(bookTitle)
                     .collection("items")
@@ -393,14 +400,14 @@ public class BookDetailActivity extends AppCompatActivity {
                             }
                         }
 
-                        // 2️⃣ 좋아요 누른 모든 사용자 카운트 감소
+                        // 2️⃣ 좋아요한 모든 유저의 likeCount 감소
                         if (likes != null) {
                             for (String likerId : likes.keySet()) {
                                 decrementUserCount(likerId, "likeCount");
                             }
                         }
 
-                        // 3️⃣ 작성자 통계 감소
+                        // 3️⃣ 작성자 리뷰/댓글 카운트 감소
                         if (isMainReview) decrementUserCount(reviewUserId, "reviewCount");
                         else decrementUserCount(reviewUserId, "replyCount");
 
@@ -504,7 +511,7 @@ public class BookDetailActivity extends AppCompatActivity {
                 .document(reviewId)
                 .set(reviewData)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(this, isReply ? "답글이 등록되었습니다" : "리뷰가 등록되었습니다", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, isReply ? "댓글이 등록되었습니다" : "리뷰가 등록되었습니다", Toast.LENGTH_SHORT).show();
                     if (!isReply) incrementUserCount("reviewCount");
                 });
     }
@@ -533,7 +540,7 @@ public class BookDetailActivity extends AppCompatActivity {
         incrementUserCount("replyCount");
     }
 
-    /** 사용자 카운트 증가 */
+    /** 카운트 증감 */
     private void incrementUserCount(String field) {
         incrementUserCount(currentUser.getUid(), field, 1);
     }
@@ -553,7 +560,7 @@ public class BookDetailActivity extends AppCompatActivity {
         });
     }
 
-    /** 사용자 카운트 감소 */
+    /** 카운트 감소 */
     private void decrementUserCount(String field) {
         decrementUserCount(currentUser.getUid(), field, 1);
     }

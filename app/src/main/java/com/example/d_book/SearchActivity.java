@@ -115,8 +115,8 @@ public class SearchActivity extends AppCompatActivity {
                         String title = doc.getString("title");
                         String author = doc.getString("author");
                         String rawThumb = doc.getString("thumbnail");
-                        String displayThumb = ThumbnailHelper.display(rawThumb, title);
-                        String storageThumb = ThumbnailHelper.storage(rawThumb, title);
+                        String displayThumb = ThumbnailHelper.display(rawThumb, title, author);
+                        String storageThumb = ThumbnailHelper.storage(rawThumb, title, author);
                         if (ThumbnailHelper.isNullOrEmpty(rawThumb) && !ThumbnailHelper.isNullOrEmpty(storageThumb)) {
                             doc.getReference().update("thumbnail", storageThumb);
                         }

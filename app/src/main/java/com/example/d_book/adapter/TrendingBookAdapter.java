@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.d_book.R;
+import com.example.d_book.ThumbnailHelper;
 import com.example.d_book.item.TrendingBook;
 
 import java.util.List;
@@ -62,17 +63,21 @@ public class TrendingBookAdapter extends RecyclerView.Adapter<TrendingBookAdapte
             imageThumbnail = itemView.findViewById(R.id.imageThumbnail);
             textTitle = itemView.findViewById(R.id.textTitle);
             textAuthor = itemView.findViewById(R.id.textAuthor);
-            textVisitCount = itemView.findViewById(R.id.textSearchCount); // layout id 그대로 사용
+            textVisitCount = itemView.findViewById(R.id.textSearchCount); // layout id 재사용
         }
 
         public void bind(final TrendingBook item, int position, final OnItemClickListener listener) {
             textRank.setText(String.valueOf(position + 1));
             textTitle.setText(item.getTitle());
             textAuthor.setText(item.getAuthor());
-            textVisitCount.setText("검색량: " + item.getVisitCount()); // 🔹 searchCount → visitCount
+            textVisitCount.setText("검색횟수: " + item.getVisitCount());
 
-            // 이미지 로딩: 로컬 > URL > 기본
-            if (item.getThumbnailResId() != 0) {
+            int fallbackRes = ThumbnailHelper.fallbackRes(item.getTitle(), item.getAuthor());
+
+            // 데미안은 무조건 로컬 표지
+            if (fallbackRes != 0) {
+                imageThumbnail.setImageResource(fallbackRes);
+            } else if (item.getThumbnailResId() != 0) {
                 Glide.with(itemView.getContext())
                         .load(item.getThumbnailResId())
                         .placeholder(R.drawable.ic_book_placeholder)
